@@ -1,0 +1,13 @@
+{
+  "name": "npm-demo",
+  "version": "0.0.0",
+  "description": "hello world",
+  "author": {
+    "name": "amazingSurge",
+    "email": "amazingSurge@gmail.com",
+    "url": "amazingsurge.com"
+  },
+  "dependencies": {
+    "bootstrap": "^3.3.7"
+  }
+}

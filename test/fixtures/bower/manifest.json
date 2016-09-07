@@ -1,0 +1,65 @@
+{
+  "cwd": "../",
+  "registries": {
+    "bower": "bower_components",
+    "npm": "node_modules",
+    "vendor": "vendor"
+  },
+  "defaultRegistry": "npm",
+  "flattenPackages": false,
+  "flattenTypes": false,
+  "dest": "assets",
+  "dests": {
+    "images": "images",
+    "fonts": "fonts",
+    "js": "js",
+    "coffee": "source/coffee",
+    "es6": "source/es6",
+    "css": "css",
+    "stylus": "source/stylus",
+    "less": "source/less",
+    "sass": "source/sass",
+    "scss": "source/scss"
+  },
+  "directories": {
+    "source": "source"
+  },
+  "files": {
+    "main.js": [
+      "jquery",
+      "bootstrap"
+    ],
+    "styles.css": {
+      "deps": [
+        "./${source}/less/styles.less",
+        "bootstrap:less",
+        "animate.css"
+      ],
+      "options": {
+        "sourcemaps": true,
+        "minify": false
+      }
+    }
+  },
+  "packages": {
+    "bower:bootstrap": [
+      {
+        "js": "dist/js",
+        "css": "dist/css",
+        "less": "less",
+        "fonts": "dist/fonts"
+      }
+    ],
+    "bower:jquery": {
+      "js": {
+        "jquery.js": "dist/jquery.js"
+      }
+    },
+    "notie": [
+      true,
+      {
+        "registry": "bower"
+      }
+    ]
+  }
+}

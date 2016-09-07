@@ -1,0 +1,10 @@
+{
+  "name": "notie",
+  "author": "Jared Reich",
+  "version": "3.9.1",
+  "main": "./dist/notie.min.js",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/jaredreich/notie/issues"
+  }
+}

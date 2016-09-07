@@ -1,0 +1,97 @@
+{
+  "cwd": "../",
+  "registries": {
+    "bower": "bower_components",
+    "npm": "node_modules",
+    "vendor": "vendor"
+  },
+  "defaultRegistry": "npm",
+  "flattenPackages": false,
+  "flattenTypes": false,
+  "dest": "assets",
+  "dests": {
+    "images": "images",
+    "fonts": "fonts",
+    "js": "js",
+    "coffee": "source/coffee",
+    "es6": "source/es6",
+    "css": "css",
+    "stylus": "source/stylus",
+    "less": "source/less",
+    "sass": "source/sass",
+    "scss": "source/scss"
+  },
+  "directories": {
+    "source": "source"
+  },
+  "files": {
+    "main.js": [
+      "jquery",
+      "bootstrap"
+    ],
+    "styles.css": {
+      "deps": [
+        "./${source}/less/styles.less",
+        "bootstrap:less",
+        "animate.css"
+      ],
+      "options": {
+        "sourcemaps": true,
+        "minify": false
+      }
+    }
+  },
+  "packages": {
+    "bower:bootstrap": [
+      {
+        "js": "dist/js",
+        "css": "dist/css",
+        "less": "less",
+        "fonts": "dist/fonts"
+      },
+      {
+        "clean": true,
+        "flatten": false,
+        "registry": "bower",
+        "dest": "assets",
+        "dest:less": "asset/less"
+      }
+    ],
+    "npm:jquery": {
+      "js": {
+        "jquery.js": "dist/jquery.js"
+      }
+    },
+    "bower:fetch": true,
+    "Swiper": [
+      true,
+      {
+        "registry": "bower"
+      }
+    ],
+    "npm:es6-promise": [
+      true,
+      {
+        "main": true
+      }
+    ],
+    "npm:bootstrap": true,
+    "modernizr": [
+      {
+        "js": "modernizr.js"
+      },
+      {
+        "npm": "modernizr",
+        "hook:pre": "./bin/modernizr -c lib/config-all.json"
+      }
+    ],
+    "vendor:animate.css": {
+      "css": {
+        ".": "*.css",
+        "${source}/${package}": [
+          "source/**/*.css"
+        ]
+      }
+    }
+  }
+}
