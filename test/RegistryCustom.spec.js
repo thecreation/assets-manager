@@ -117,13 +117,13 @@ describe('Custom Registry', () => {
         dir: 'libs'
       });
       expect(custom.getPackageInfo('notie')).to.be.eql({
-        'name': 'notie',
-        'author': 'Jared Reich',
-        'version': '3.9.1',
-        'main': './dist/notie.min.js',
-        'license': 'MIT',
-        'bugs': {
-          'url': 'https://github.com/jaredreich/notie/issues'
+        name: 'notie',
+        author: 'Jared Reich',
+        version: '3.9.1',
+        main: './dist/notie.min.js',
+        license: 'MIT',
+        bugs: {
+          url: 'https://github.com/jaredreich/notie/issues'
         }
       });
     });

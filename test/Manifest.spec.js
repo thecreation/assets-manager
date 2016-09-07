@@ -5,7 +5,6 @@ import Manifest from '../lib/Manifest';
 import Package from '../lib/Package';
 import path from 'path';
 import cd from './helpers/cd';
-import fillTypes from './helpers/fillTypes';
 import file from '../lib/file';
 import configure from '../lib/configure';
 
@@ -37,8 +36,8 @@ describe('Manifest', () => {
     cd('bower');
 
     let data = {
-      "registries": {
-        "vendor": "vendor"
+      registries: {
+        vendor: "vendor"
       }
     };
     let manifest = new Manifest(data);
@@ -81,8 +80,8 @@ describe('Manifest', () => {
 
     let manifest = new Manifest();
     let packages = manifest.packages;
-    expect(packages['bootstrap']).to.be.instanceOf(Package);
-    expect(packages['bootstrap'].name).to.be.equal('bootstrap');
+    expect(packages.bootstrap).to.be.instanceOf(Package);
+    expect(packages.bootstrap.name).to.be.equal('bootstrap');
   });
 
   it('should prepare packages correctly (duplicate packages)', () => {
@@ -90,8 +89,8 @@ describe('Manifest', () => {
 
     let manifest = new Manifest('./duplicate.json');
     let packages = manifest.packages;
-    expect(packages['bootstrap']).to.be.instanceof(Array);
-    expect(packages['bootstrap'][0]).to.be.instanceOf(Package);
+    expect(packages.bootstrap).to.be.instanceof(Array);
+    expect(packages.bootstrap[0]).to.be.instanceOf(Package);
   });
 
   it('should parse package name correctly', () => {
@@ -133,65 +132,65 @@ describe('Manifest', () => {
     expect(manifest.parsePackageConfig([
       true,
       {
-        "registry": "bower"
+        registry: "bower"
       }
     ])).to.be.eql({
       defination: true,
       options: {
-        "registry": "bower"
+        registry: "bower"
       }
     });
 
     expect(manifest.parsePackageConfig([
       {
-        "js": "dist/js",
-        "css": "dist/css",
-        "less": "less",
-        "fonts": "dist/fonts"
+        js: "dist/js",
+        css: "dist/css",
+        less: "less",
+        fonts: "dist/fonts"
       }
     ])).to.be.eql({
       defination: {
-        "js": "dist/js",
-        "css": "dist/css",
-        "less": "less",
-        "fonts": "dist/fonts"
+        js: "dist/js",
+        css: "dist/css",
+        less: "less",
+        fonts: "dist/fonts"
       },
       options: {}
     });
 
     expect(manifest.parsePackageConfig([
       {
-        "js": "dist/js",
-        "css": "dist/css",
-        "less": "less",
-        "fonts": "dist/fonts"
+        js: "dist/js",
+        css: "dist/css",
+        less: "less",
+        fonts: "dist/fonts"
       },
       {
-        "registry": "bower"
+        registry: "bower"
       }
     ])).to.be.eql({
       defination: {
-        "js": "dist/js",
-        "css": "dist/css",
-        "less": "less",
-        "fonts": "dist/fonts"
+        js: "dist/js",
+        css: "dist/css",
+        less: "less",
+        fonts: "dist/fonts"
       },
       options: {
-        "registry": "bower"
+        registry: "bower"
       }
     });
 
     expect(manifest.parsePackageConfig({
-      "js": "dist/js",
-      "css": "dist/css",
-      "less": "less",
-      "fonts": "dist/fonts"
+      js: "dist/js",
+      css: "dist/css",
+      less: "less",
+      fonts: "dist/fonts"
     })).to.be.eql({
       defination: {
-        "js": "dist/js",
-        "css": "dist/css",
-        "less": "less",
-        "fonts": "dist/fonts"
+        js: "dist/js",
+        css: "dist/css",
+        less: "less",
+        fonts: "dist/fonts"
       },
       options: {}
     });

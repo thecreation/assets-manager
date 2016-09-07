@@ -1,5 +1,4 @@
 import {expect} from 'chai';
-import assert from 'assert';
 import Foo from './fixtures/singleton';
 
 describe('Singleton', function () {

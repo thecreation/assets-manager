@@ -5,12 +5,9 @@ import Package from '../lib/Package';
 import Bower from '../lib/Registry/Bower';
 import Npm from '../lib/Registry/Npm';
 import Custom from '../lib/Registry/Custom';
-import path from 'path';
 import cd from './helpers/cd';
 import fillTypes from './helpers/fillTypes';
 import configure from '../lib/configure';
-
-let FIXTURES = path.join(__dirname, 'fixtures');
 
 describe('Package', () => {
   afterEach(() => {
