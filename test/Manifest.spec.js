@@ -245,4 +245,47 @@ describe('Manifest', () => {
       }
     });
   });
+
+  it('should get package by name correctly', () => {
+    cd('manifest');
+
+    let manifest = new Manifest();
+    let pkg = manifest.getPackage('bootstrap');
+
+    expect(pkg).to.be.an.instanceof(Package);
+    expect(pkg.name).to.be.equal('bootstrap');
+
+    expect(manifest.getPackage('un-exists')).to.be.equal(null);
+  });
+
+  it('should clean package destination files correctly', () => {
+    cd('manifest');
+
+    let manifest = new Manifest({
+      packages: {
+        "bower:jquery": {
+          js: 'dist/jquery.js'
+        },
+        "npm:bootstrap": [{
+          js: 'dist/js/bootstrap.js'
+        }]
+      }
+    });
+
+    let count = 0;
+    manifest.forEachPackage(function(){
+      expect(this).to.be.an.instanceof(Package);
+      count ++;
+    });
+    expect(count).to.be.equal(2);
+
+    count = 0;
+    manifest.forEachPackage('js', function(files){
+      count ++;
+
+      expect(this).to.be.an.instanceof(Package);
+      expect(files).to.be.an.instanceof(Array);
+    });
+    expect(count).to.be.equal(2);
+  });
 });

@@ -229,6 +229,31 @@ describe('Package', () => {
     expect(npm.getMainFiles()).to.be.eql(['normalize.css']);
   });
 
+  it('should get files type with definations', () => {
+    cd('bower');
+
+    let pkg = new Package('bootstrap', {
+      js: 'dist/js',
+      css: ['dist/css/*.css', '!dist/css/*.min.css']
+    }, {
+      registry: 'bower'
+    });
+
+    expect(pkg.getFilesByType('js')).to.be.eql([
+      'dist/js/bootstrap.js',
+      'dist/js/bootstrap.min.js',
+      'dist/js/npm.js'
+    ]);
+
+    expect(pkg.getFilesByType('css')).to.be.eql([
+      'dist/css/bootstrap-theme.css',
+      'dist/css/bootstrap.css'
+    ]);
+
+    expect(pkg.getFilesByType('fonts')).to.be.eql([
+    ]);
+  });
+
   it('should get files types with definations', () => {
     cd('bower');
 
