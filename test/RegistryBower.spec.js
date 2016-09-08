@@ -75,7 +75,7 @@ describe('Bower Registry', () => {
 
     let bower = new Bower();
     expect(bower.getPackagePath('bootstrap')).to.be.eql(
-      path.resolve(FIXTURES, 'bower', 'bower_components', 'bootstrap')
+      path.join('bower_components', 'bootstrap')
     );
   });
 

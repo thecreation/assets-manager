@@ -51,7 +51,7 @@ describe('Custom Registry', () => {
       dir: 'libs'
     });
     expect(custom.getPackagePath('bootstrap')).to.be.eql(
-      path.resolve(FIXTURES, 'custom', 'libs', 'bootstrap')
+      path.join('libs', 'bootstrap')
     );
   });
 

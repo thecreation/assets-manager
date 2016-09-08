@@ -258,7 +258,7 @@ describe('Manifest', () => {
     expect(manifest.getPackage('un-exists')).to.be.equal(null);
   });
 
-  it('should clean package destination files correctly', () => {
+  it('should loop packages correctly', () => {
     cd('manifest');
 
     let manifest = new Manifest({
@@ -287,5 +287,26 @@ describe('Manifest', () => {
       expect(files).to.be.an.instanceof(Array);
     });
     expect(count).to.be.equal(2);
+  });
+
+  it('should copy package correctly', (done) => {
+    cd('manifest');
+
+    let manifest = new Manifest({
+      packages: {
+        "bower:jquery": {
+          js: 'dist/jquery.js'
+        },
+        "npm:bootstrap": [{
+          js: 'dist/js/bootstrap.js'
+        }]
+      }
+    });
+
+    manifest.copyPackage('bootstrap').then(()=>{
+      manifest.cleanPackage('bootstrap').then(done).catch(err => {
+        console.info(err);
+      });
+    });
   });
 });

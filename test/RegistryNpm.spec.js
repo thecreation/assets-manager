@@ -60,7 +60,7 @@ describe('Npm Registry', () => {
 
     let npm = new Npm();
     expect(npm.getPackagePath('bootstrap')).to.be.eql(
-      path.resolve(FIXTURES, 'npm', 'node_modules', 'bootstrap')
+      path.join('node_modules', 'bootstrap')
     );
   });
 
