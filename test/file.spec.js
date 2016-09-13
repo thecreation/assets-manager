@@ -2,14 +2,19 @@
 
 import file from '../lib/file';
 import path from 'path';
+import fs from 'fs-extra';
 import cd from './helpers/cd';
 import finder from '../lib/finder';
 import chai from 'chai';
 import dirtyChai from 'dirty-chai';
 import chaiAsPromised from 'chai-as-promised';
+import sinonChai from 'sinon-chai';
+import sinon from 'sinon';
+
 
 chai.use(chaiAsPromised);
 chai.use(dirtyChai);
+chai.use(sinonChai);
 
 const expect = chai.expect;
 const FIXTURES = path.join(__dirname, 'fixtures');
@@ -17,6 +22,8 @@ const TEMP = path.join(__dirname, 'fixtures', '.tmp');
 
 
 describe('file', () => {
+  var sandbox;
+
   afterEach(() => {
     cd.reset();
   });
@@ -156,6 +163,76 @@ describe('file', () => {
         expect(error).to.contain('Cannot copy');
       });
     });
+
+    it('should keep old files when options.override = false', () => {
+      cd(FIXTURES);
+
+      return file.copyFiles([{
+        src: path.join('file', 'override', 'a.txt'),
+        dest: path.join('.tmp', 'override.txt'),
+      }]).then(() => {
+        return file.copyFiles([{
+          src: path.join('file', 'override', 'b.txt'),
+          dest: path.join('.tmp', 'override.txt'),
+        }], {
+          override: false
+        }).then(() => {
+          expect(fs.readFileSync(path.resolve(TEMP, 'override.txt')).toString()).to.be.equal(fs.readFileSync(path.join('file', 'override', 'a.txt')).toString());
+        });
+      });
+    });
+
+    it('should override old files when options.override = true', () => {
+      cd(FIXTURES);
+
+      return file.copyFiles([{
+        src: path.join('file', 'override', 'a.txt'),
+        dest: path.join('.tmp', 'override.txt'),
+      }]).then(() => {
+        return file.copyFiles([{
+          src: path.join('file', 'override', 'b.txt'),
+          dest: path.join('.tmp', 'override.txt'),
+        }], {
+          override: true
+        }).then(() => {
+          expect(fs.readFileSync(path.resolve(TEMP, 'override.txt')).toString()).to.be.equal(fs.readFileSync(path.join('file', 'override', 'b.txt')).toString());
+        });
+      });
+    });
+
+    it('should log files copy when options.verbose = true', () => {
+      cd(FIXTURES);
+      let log = {
+        info: sinon.spy()
+      };
+
+      return file.copyFiles([{
+        src: path.join('file', 'test.js'),
+        dest: path.join('.tmp', 'copy', 'js' ,'test.js'),
+      }], {
+        verbose: true,
+        log: log.info
+      }).then(() => {
+        expect(log.info).to.be.calledOnce();
+      });
+    });
+
+    it('should not log files copy when options.verbose = false', () => {
+      cd(FIXTURES);
+      let log = {
+        info: sinon.spy()
+      };
+
+      return file.copyFiles([{
+        src: path.join('file', 'test.js'),
+        dest: path.join('.tmp', 'copy', 'js' ,'test.js'),
+      }], {
+        verbose: false,
+        log: log.info
+      }).then(() => {
+        expect(log.info).to.not.be.called();
+      });
+    });
   });
 
   describe('cleanFiles()', () => {
@@ -175,15 +252,64 @@ describe('file', () => {
       });
     });
 
-    it('should fail if clean files not correctly', () => {
+    it('should fail if files not exists when options.ignore = false', () => {
       cd(FIXTURES);
 
       return file.cleanFiles([{
         src: path.join('file', 'non-exist.js'),
         dest: path.join('.tmp', 'non-exist.js'),
-      }]).catch(error => {
+      }], {
+        ignore: false
+      }).catch(error => {
         expect(error).to.be.exist();
         expect(error).to.contain('Cannot clean');
+      });
+    });
+
+    it('should not fail if files not exists when options.ignore = true', () => {
+      cd(FIXTURES);
+
+      return file.cleanFiles([{
+        src: path.join('file', 'non-exist.js'),
+        dest: path.join('.tmp', 'non-exist.js'),
+      }], {
+        ignore: true
+      }).catch(error => {
+        expect(error).to.not.be.exist();
+      });
+    });
+
+    it('should log files cleaned when options.verbose = true', () => {
+      cd(FIXTURES);
+      let log = {
+        info: sinon.spy()
+      };
+
+      return file.cleanFiles([{
+        src: path.join('file', 'test.js'),
+        dest: path.join('.tmp', 'copy', 'js' ,'test.js'),
+      }], {
+        verbose: true,
+        log: log.info
+      }).then(() => {
+        expect(log.info).to.be.calledOnce();
+      });
+    });
+
+    it('should not log files cleaned when options.verbose = false', () => {
+      cd(FIXTURES);
+      let log = {
+        info: sinon.spy()
+      };
+
+      return file.cleanFiles([{
+        src: path.join('file', 'test.js'),
+        dest: path.join('.tmp', 'copy', 'js' ,'test.js'),
+      }], {
+        verbose: false,
+        log: log.info
+      }).then(() => {
+        expect(log.info).to.not.be.called();
       });
     });
   });

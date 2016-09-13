@@ -308,7 +308,8 @@ describe('Manifest', () => {
         "npm:bootstrap": [{
           js: 'dist/js/bootstrap.js'
         }]
-      }
+      },
+      verbose: false
     });
 
     return manifest.copyPackage('bootstrap').then(() => {
@@ -336,7 +337,8 @@ describe('Manifest', () => {
         "npm:bootstrap": [{
           js: 'dist/js/bootstrap.js'
         }]
-      }
+      },
+      verbose: false
     });
 
     return manifest.copyPackages().then(() => {
@@ -435,66 +437,157 @@ describe('Manifest', () => {
       expect(manifest.getConfigure('override')).to.be.equal(true);
     });
 
-    it('should flatten packages', () => {
-      cd('manifest');
+    describe('flattenTypes', () => {
+      it('should flatten types when true', () => {
+        cd('manifest');
 
-      let manifest = new Manifest({
-        flattenPackages: true,
-        packages: {
-          "bower:jquery": {
-            js: 'dist/jquery.js'
+        let manifest = new Manifest({
+          flattenTypes: true,
+          flattenPackages: false,
+          packages: {
+            "npm:bootstrap": {
+              js: 'dist/js/bootstrap.js',
+              css: 'dist/css/bootstrap.css'
+            },
+            "bower:jquery": [{
+              js: 'dist/jquery.js'
+            }, {
+              flattenPackages: true
+            }]
           },
-          "npm:bootstrap": [{
-            js: 'dist/js/bootstrap.js'
-          }]
-        }
+          dest: 'assets',
+          verbose: false
+        });
+
+        return manifest.copyPackages().then(() => {
+          let dir = path.resolve(FIXTURES, 'manifest', 'assets');
+          let files = finder.listFiles(dir);
+          expect('bootstrap/bootstrap.js').to.be.oneOf(files);
+          expect('bootstrap/bootstrap.css').to.be.oneOf(files);
+          expect('jquery.js').to.be.oneOf(files);
+
+          return manifest.cleanPackages().then(() => {
+            let dir = path.resolve(FIXTURES, 'assets');
+            let files = finder.listFiles(dir);
+
+            expect('bootstrap/bootstrap.js').to.not.be.oneOf(files);
+            expect('bootstrap/bootstrap.css').to.not.be.oneOf(files);
+            expect('jquery.js').to.not.be.oneOf(files);
+          });
+        });
       });
 
-      return manifest.copyPackages().then(() => {
-        let dir = path.resolve(FIXTURES, 'manifest', 'assets');
-        let files = finder.listFiles(dir);
-        expect('js/bootstrap.js').to.be.oneOf(files);
-        expect('js/jquery.js').to.be.oneOf(files);
+      it('should not flatten types when false', () => {
+        cd('manifest');
 
-        return manifest.cleanPackages().then(() => {
-          let dir = path.resolve(FIXTURES, 'assets');
+        let manifest = new Manifest({
+          flattenTypes: false,
+          flattenPackages: false,
+          packages: {
+            "npm:bootstrap": {
+              js: 'dist/js/bootstrap.js',
+              css: 'dist/css/bootstrap.css'
+            },
+            "bower:jquery": [{
+              js: 'dist/jquery.js'
+            }, {
+              flattenPackages: true
+            }]
+          },
+          dest: 'assets',
+          verbose: false
+        });
+
+        return manifest.copyPackages().then(() => {
+          let dir = path.resolve(FIXTURES, 'manifest', 'assets');
           let files = finder.listFiles(dir);
 
-          expect('js/bootstrap.js').to.not.be.oneOf(files);
-          expect('js/jquery.js').to.not.be.oneOf(files);
+          expect('js/bootstrap/bootstrap.js').to.be.oneOf(files);
+          expect('css/bootstrap/bootstrap.css').to.be.oneOf(files);
+          expect('js/jquery.js').to.be.oneOf(files);
+
+          return manifest.cleanPackages().then(() => {
+            let dir = path.resolve(FIXTURES, 'assets');
+            let files = finder.listFiles(dir);
+
+            expect('js/bootstrap/bootstrap.js').to.not.be.oneOf(files);
+            expect('css/bootstrap/bootstrap.css').to.not.be.oneOf(files);
+            expect('js/jquery.js').to.not.be.oneOf(files);
+          });
         });
       });
     });
 
-    it('should not flatten packages', () => {
-      cd('manifest');
+    describe('flattenPackages', () => {
+      it('should flatten packages', () => {
+        cd('manifest');
 
-      let manifest = new Manifest({
-        flattenPackages: false,
-        packages: {
-          "bower:jquery": {
-            js: 'dist/jquery.js'
+        let manifest = new Manifest({
+          flattenTypes: false,
+          flattenPackages: true,
+          packages: {
+            "bower:jquery": {
+              js: 'dist/jquery.js'
+            },
+            "npm:bootstrap": [{
+              js: 'dist/js/bootstrap.js'
+            }, {
+              flattenTypes: true
+            }]
           },
-          "npm:bootstrap": [{
-            js: 'dist/js/bootstrap.js'
-          }, {
-            flattenPackages: true
-          }]
-        }
+          dest: 'assets',
+          verbose: false
+        });
+
+        return manifest.copyPackages().then(() => {
+          let dir = path.resolve(FIXTURES, 'manifest', 'assets');
+          let files = finder.listFiles(dir);
+          expect('bootstrap.js').to.be.oneOf(files);
+          expect('js/jquery.js').to.be.oneOf(files);
+
+          return manifest.cleanPackages().then(() => {
+            let dir = path.resolve(FIXTURES, 'assets');
+            let files = finder.listFiles(dir);
+
+            expect('bootstrap.js').to.not.be.oneOf(files);
+            expect('js/jquery.js').to.not.be.oneOf(files);
+          });
+        });
       });
 
-      return manifest.copyPackages().then(() => {
-        let dir = path.resolve(FIXTURES, 'manifest', 'assets');
-        let files = finder.listFiles(dir);
-        expect('js/bootstrap.js').to.be.oneOf(files);
-        expect('js/jquery/jquery.js').to.be.oneOf(files);
+      it('should not flatten packages', () => {
+        cd('manifest');
 
-        return manifest.cleanPackages().then(() => {
-          let dir = path.resolve(FIXTURES, 'assets');
+        let manifest = new Manifest({
+          flattenTypes: false,
+          flattenPackages: false,
+          packages: {
+            "bower:jquery": {
+              js: 'dist/jquery.js'
+            },
+            "npm:bootstrap": [{
+              js: 'dist/js/bootstrap.js'
+            }, {
+              flattenTypes: true
+            }]
+          },
+          dest: 'assets',
+          verbose: false
+        });
+
+        return manifest.copyPackages().then(() => {
+          let dir = path.resolve(FIXTURES, 'manifest', 'assets');
           let files = finder.listFiles(dir);
+          expect('bootstrap/bootstrap.js').to.be.oneOf(files);
+          expect('js/jquery/jquery.js').to.be.oneOf(files);
 
-          expect('js/bootstrap.js').to.not.be.oneOf(files);
-          expect('js/jquery/jquery.js').to.not.be.oneOf(files);
+          return manifest.cleanPackages().then(() => {
+            let dir = path.resolve(FIXTURES, 'assets');
+            let files = finder.listFiles(dir);
+
+            expect('bootstrap/bootstrap.js').to.not.be.oneOf(files);
+            expect('js/jquery/jquery.js').to.not.be.oneOf(files);
+          });
         });
       });
     });
