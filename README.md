@@ -65,6 +65,46 @@ Just defined the registries in the manifest.json. The **npm** and **bower** are 
 }
 ```
 
+## Example manifest.json
+```js
+{
+  "cwd": "./",
+  "registries": {
+    "vendor": "libs"
+  },
+  "defaultRegistry": "npm",
+  "verbose": true,
+  "override": true,
+  "flattenPackages": true,
+  "flattenTypes": false,
+  "dest": "assets",
+  "dests": {
+    "images": "images",
+    "fonts": "fonts",
+    "js": "js",
+    "coffee": "source/coffee",
+    "es6": "source/es6",
+    "css": "css",
+    "stylus": "source/stylus",
+    "less": "source/less",
+    "sass": "source/sass",
+    "scss": "source/scss"
+  },
+  "packages": {
+    "bower:jquery": true,
+    "npm:bootstrap": [{
+      "js": "dist/js",
+      "css": "dist/css",
+      "less": "less",
+      "fonts": "dist/fonts"
+    }],
+    "vendor:modernizr": {
+      "modernizr.js": "dist/modernizr.min.js",
+    }
+  }
+}
+```
+
 ## Global options
 ### cwd
 The relative path to the root of the project.
@@ -132,14 +172,14 @@ https://github.com/npm/node-semver#ranges
 ### Package definition
 You can write in the following ways define the package.
 
-1. simple mode
+1.simple mode
 ```js
 "PACKAGEKEY": true
 ```
 
 It will use default types config and use default options.
 
-2. use options only
+2.use options only
 ```js
 "PACKAGEKEY": [
   true,
@@ -151,7 +191,7 @@ It will use default types config and use default options.
 
 It will use default types config and custom options.
 
-3. use types only
+3.use types only
 ```js
 "PACKAGEKEY": [{
   "js": "dist/js",
@@ -161,7 +201,7 @@ It will use default types config and custom options.
 
 It will use custom types config and default options.
 
-4. use types only alternatively
+4.use types only alternatively
 ```js
 "PACKAGEKEY": {
   "js": "dist/js",
@@ -169,7 +209,7 @@ It will use custom types config and default options.
 }
 ```
 
-5. use types and options
+5.use types and options
 ```js
 "PACKAGEKEY": [
   {
@@ -186,7 +226,7 @@ It will use custom types config and custom options.
 
 ### Types config in the package definition
 
-1. Simple path mapping
+1.Simple path mapping
 ```js
 {
   js: 'path-to-js',
@@ -194,7 +234,7 @@ It will use custom types config and custom options.
 }
 ```
 
-2. Glob support
+2.Glob support
 ```js
 {
   js: '*.js',
@@ -202,7 +242,7 @@ It will use custom types config and custom options.
 }
 ```
 
-3. Array support
+3.Array support
 ```js
 {
   js: ['a.js', 'b.js'],
@@ -210,7 +250,7 @@ It will use custom types config and custom options.
 }
 ```
 
-4. You can rename the files
+4.You can rename the files
 ```js
 js: {
   'bootstrap.js': 'dist/js/bootstrap.js'
@@ -248,46 +288,6 @@ Assets manager provides 4 separate hooks that can be used to trigger other autom
 "copy:post": "<your command here>",
 "clean:pre": "<your command here>",
 "clean:post": "<your command here>",
-```
-
-## Example manifest.json
-```js
-{
-  "cwd": "./",
-  "registries": {
-    "vendor": "libs"
-  },
-  "defaultRegistry": "npm",
-  "verbose": true,
-  "override": true,
-  "flattenPackages": true,
-  "flattenTypes": false,
-  "dest": "assets",
-  "dests": {
-    "images": "images",
-    "fonts": "fonts",
-    "js": "js",
-    "coffee": "source/coffee",
-    "es6": "source/es6",
-    "css": "css",
-    "stylus": "source/stylus",
-    "less": "source/less",
-    "sass": "source/sass",
-    "scss": "source/scss"
-  },
-  "packages": {
-    "bower:jquery": true,
-    "npm:bootstrap": [{
-      "js": "dist/js",
-      "css": "dist/css",
-      "less": "less",
-      "fonts": "dist/fonts"
-    }],
-    "vendor:modernizr": {
-      "modernizr.js": "dist/modernizr.min.js",
-    }
-  }
-}
 ```
 
 ## Todos
