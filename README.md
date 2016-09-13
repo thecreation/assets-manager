@@ -4,7 +4,7 @@
 ## Installation
 
 ```sh
-$ npm install --save assets-manager
+$ npm install --save-dev assets-manager
 ```
 
 ## Usage
