@@ -1,13 +1,19 @@
+"use strict";
+
 import finder from '../lib/finder';
-import {expect} from 'chai';
 import path from 'path';
 import fillTypes from './helpers/fillTypes';
+import chai from 'chai';
+import dirtyChai from 'dirty-chai';
 
-let FIXTURES = path.join(__dirname, 'fixtures');
+chai.use(dirtyChai);
+
+const expect = chai.expect;
+const FIXTURES = path.join(__dirname, 'fixtures');
 
 describe('finder', function () {
   it('should exists', () => {
-    expect(finder).to.exist;
+    expect(finder).to.exist();
   });
 
   it('should list files', () => {

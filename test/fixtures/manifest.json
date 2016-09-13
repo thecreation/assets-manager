@@ -50,7 +50,6 @@
         "fonts": "dist/fonts"
       },
       {
-        "clean": true,
         "flatten": false,
         "registry": "bower",
         "dest": "assets",

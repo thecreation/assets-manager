@@ -1,10 +1,16 @@
-import {expect} from 'chai';
+"use strict";
+
 import Npm from '../lib/Registry/Npm';
 import path from 'path';
 import cd from './helpers/cd';
 import fillTypes from './helpers/fillTypes';
+import chai from 'chai';
+import dirtyChai from 'dirty-chai';
 
-let FIXTURES = path.join(__dirname, 'fixtures');
+chai.use(dirtyChai);
+
+const expect = chai.expect;
+const FIXTURES = path.join(__dirname, 'fixtures');
 
 describe('Npm Registry', () => {
   afterEach(() => {
@@ -13,7 +19,7 @@ describe('Npm Registry', () => {
 
   it('should exists', () => {
     const npm = new Npm();
-    expect(npm).to.exist;
+    expect(npm).to.exist();
   });
 
   it('should set npm configurations', () => {
@@ -70,7 +76,7 @@ describe('Npm Registry', () => {
 
       let npm = new Npm();
       let results = npm.getPackageInfo('bootstrap');
-      expect(results).to.exist;
+      expect(results).to.exist();
       expect(results.name).to.be.equal('bootstrap');
     });
 
@@ -93,7 +99,7 @@ describe('Npm Registry', () => {
 
       let npm = new Npm();
       let results = npm.getPackageInfo('non-exists');
-      expect(results).to.null;
+      expect(results).to.null();
     });
   });
 
@@ -137,7 +143,7 @@ describe('Npm Registry', () => {
 
       let npm = new Npm();
       let results = npm.getPackageMainFiles('non-exists');
-      expect(results).to.null;
+      expect(results).to.null();
     });
 
     it('should convent single main file to array', () => {

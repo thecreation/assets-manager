@@ -22,7 +22,6 @@ describe('Package', () => {
       css: 'dist/css',
       fonts: 'dist/fonts'
     }, {
-      clean: true,
       registry: 'bower',
       main: false,
       flatten: false
@@ -31,7 +30,6 @@ describe('Package', () => {
     expect(pkg.name).to.be.equal('bootstrap');
     expect(pkg.registry).to.be.an.instanceof(Bower);
     expect(pkg.options).to.be.eql({
-      clean: true,
       registry: 'bower',
       main: false,
       flatten: false
@@ -78,7 +76,6 @@ describe('Package', () => {
       css: 'dist/css',
       fonts: 'dist/fonts'
     }, {
-      clean: true,
       registry: 'npm',
       main: false,
       flatten: false
@@ -87,7 +84,6 @@ describe('Package', () => {
     expect(pkg.name).to.be.equal('bootstrap');
     expect(pkg.registry).to.be.an.instanceof(Npm);
     expect(pkg.options).to.be.eql({
-      clean: true,
       registry: 'npm',
       main: false,
       flatten: false
@@ -136,7 +132,6 @@ describe('Package', () => {
       css: 'css',
       fonts: 'fonts'
     }, {
-      clean: true,
       registry: 'libs',
       main: false,
       flatten: false
@@ -145,7 +140,6 @@ describe('Package', () => {
     expect(pkg.name).to.be.equal('bootstrap');
     expect(pkg.registry).to.be.an.instanceof(Custom);
     expect(pkg.options).to.be.eql({
-      clean: true,
       registry: 'libs',
       main: false,
       flatten: false
@@ -191,7 +185,14 @@ describe('Package', () => {
       registry: 'bower'
     });
 
-    expect(pkg.getFiles('normalize-css')).to.be.eql([
+    expect(pkg.getFiles()).to.be.eql([
+      'bower.json',
+      'LICENSE.md',
+      'normalize.css'
+    ]);
+
+    // it should use cached files
+    expect(pkg.getFiles()).to.be.eql([
       'bower.json',
       'LICENSE.md',
       'normalize.css'

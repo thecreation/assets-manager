@@ -1,5 +1,12 @@
+"use strict";
+
 import configure from '../lib/configure';
-import {expect} from 'chai';
+import chai from 'chai';
+import dirtyChai from 'dirty-chai';
+
+chai.use(dirtyChai);
+
+const expect = chai.expect;
 
 describe('configure', function () {
   afterEach(() => {
@@ -7,7 +14,7 @@ describe('configure', function () {
   });
 
   it('should exists', () => {
-    expect(configure).to.exist;
+    expect(configure).to.exist();
   });
 
   it('should set() and get() correctly', () => {
@@ -52,9 +59,9 @@ describe('configure', function () {
     configure.set('foo', '🦄');
     configure.set('baz.boo', '🦄');
 
-    expect(configure.has('foo')).to.be.true;
-    expect(configure.has('baz.boo')).to.be.true;
-    expect(configure.has('missing')).to.be.false;
+    expect(configure.has('foo')).to.be.true();
+    expect(configure.has('baz.boo')).to.be.true();
+    expect(configure.has('missing')).to.be.false();
   });
 
   it('should delete a variable from configure correctly', () => {

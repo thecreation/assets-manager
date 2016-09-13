@@ -1,10 +1,16 @@
-import {expect} from 'chai';
+"use strict";
+
 import Custom from '../lib/Registry/Custom';
 import path from 'path';
 import cd from './helpers/cd';
 import fillTypes from './helpers/fillTypes';
+import chai from 'chai';
+import dirtyChai from 'dirty-chai';
 
-let FIXTURES = path.join(__dirname, 'fixtures');
+chai.use(dirtyChai);
+
+const expect = chai.expect;
+const FIXTURES = path.join(__dirname, 'fixtures');
 
 describe('Custom Registry', () => {
   afterEach(() => {
@@ -15,7 +21,7 @@ describe('Custom Registry', () => {
     const custom = new Custom('libs', {
       dir: 'libs'
     });
-    expect(custom).to.exist;
+    expect(custom).to.exist();
   });
 
   it('should set custom configurations', () => {
@@ -91,7 +97,7 @@ describe('Custom Registry', () => {
         dir: 'libs'
       });
       let results = custom.getPackageInfo('bootstrap');
-      expect(results).to.exist;
+      expect(results).to.exist();
       expect(results.name).to.be.equal('bootstrap');
     });
 
@@ -134,7 +140,7 @@ describe('Custom Registry', () => {
         dir: 'libs'
       });
       let results = custom.getPackageInfo('non-exists');
-      expect(results).to.null;
+      expect(results).to.null();
     });
   });
 });

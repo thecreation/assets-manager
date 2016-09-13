@@ -1,10 +1,16 @@
-import {expect} from 'chai';
+"use strict";
+
 import Bower from '../lib/Registry/Bower';
 import path from 'path';
 import cd from './helpers/cd';
 import fillTypes from './helpers/fillTypes';
+import chai from 'chai';
+import dirtyChai from 'dirty-chai';
 
-let FIXTURES = path.join(__dirname, 'fixtures');
+chai.use(dirtyChai);
+
+const expect = chai.expect;
+const FIXTURES = path.join(__dirname, 'fixtures');
 
 describe('Bower Registry', () => {
   afterEach(() => {
@@ -13,7 +19,7 @@ describe('Bower Registry', () => {
 
   it('should exists', () => {
     const bower = new Bower();
-    expect(bower).to.exist;
+    expect(bower).to.exist();
   });
 
   it('should set bower configurations', () => {
@@ -85,7 +91,7 @@ describe('Bower Registry', () => {
 
       let bower = new Bower();
       let results = bower.getPackageInfo('bootstrap');
-      expect(results).to.exist;
+      expect(results).to.exist();
       expect(results.name).to.be.equal('bootstrap');
     });
 
@@ -108,7 +114,7 @@ describe('Bower Registry', () => {
 
       let bower = new Bower();
       let results = bower.getPackageInfo('non-exists');
-      expect(results).to.null;
+      expect(results).to.null();
     });
   });
 
@@ -151,7 +157,7 @@ describe('Bower Registry', () => {
 
       let bower = new Bower();
       let results = bower.getPackageMainFiles('non-exists');
-      expect(results).to.null;
+      expect(results).to.null();
     });
 
     it('should convent single main file to array', () => {

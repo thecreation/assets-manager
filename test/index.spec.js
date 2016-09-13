@@ -1,6 +1,7 @@
-// import assert from 'assert';
+"use strict";
+
 import assetsManager from '../lib';
-import {assert} from 'chai';
+import {expect} from 'chai';
 
 // describe('assets-manager', function () {
 //   it('should have unit test!', function () {
