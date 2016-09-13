@@ -54,9 +54,9 @@ pkg.getMainFiles();
 
 
 ## Registries
-Assets manager can work with different package manager like npm, bower. Also It can use custom folders.
+Assets manager can work with different package manager like **npm**, **bower**. It Also can use custom folders.
 
-Just defined the registries in the manifest.json.
+Just defined the registries in the manifest.json. The **npm** and **bower** are supported by default, you don't need defined them again.
 
 ```js
 "registries": {
@@ -79,7 +79,7 @@ Whether to remove all type path parts from generated dest paths.
 Defaults to false.
 
 ### verbose
-Whether to console log copy and clean files.
+Whether to output copy and clean files infos to console.
 Defaults to true.
 
 ### override
@@ -234,18 +234,20 @@ css: {
 }
 ```
 
-#### clean, flattenPackages, flattenTypes, registry
+#### flattenPackages, flattenTypes, verbose, override, registry
 These options will override the global options.
 
 #### main
 Set to true will use bower/npm's main files.
 
 #### Hooks
-Assets manager provides 2 separate hooks that can be used to trigger other automated tools during assets copy operate. 
+Assets manager provides 4 separate hooks that can be used to trigger other automated tools during assets copy or clean operate. 
 
 ```
-"hook:pre": "<your command here>",
-"hook:post": "<your command here>",
+"copy:pre": "<your command here>",
+"copy:post": "<your command here>",
+"clean:pre": "<your command here>",
+"clean:post": "<your command here>",
 ```
 
 ## Example manifest.json
@@ -282,11 +284,18 @@ Assets manager provides 2 separate hooks that can be used to trigger other autom
       "fonts": "dist/fonts"
     }],
     "vendor:modernizr": {
-        "modernizr.js": "dist/modernizr.min.js",
+      "modernizr.js": "dist/modernizr.min.js",
     }
   }
 }
 ```
+
+## Todos
+-   Hooks
+-   Rename support
+-   Npm package version support
+-   File collections
+-   Dependencies
 
 ## License
 
