@@ -20,6 +20,9 @@ assets.copyPackages();
 // clean all packages files from destination
 assets.cleanPackages();
 
+// get packages info
+assets.getPackagesInfo(['name', 'version', 'license']);
+
 // look all packages
 assets.forEachPackage(function(pkg){
 
@@ -29,6 +32,24 @@ assets.forEachPackage(function(pkg){
 assets.forEachPackage('js', function(pkg, files){
 
 });
+
+// get package handler
+const pkg = assets.getPackage('bootstrap');
+
+// get package info
+pkg.getInfo();
+
+// get package path
+pkg.getPath();
+
+// get all files in package 
+pkg.getFiles();
+
+// get specfic type files in package
+pkg.getFilesByType();
+
+// get main files of package
+pkg.getMainFiles();
 ```
 
 
