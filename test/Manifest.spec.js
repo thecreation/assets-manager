@@ -355,25 +355,69 @@ describe('Manifest', () => {
     });
   });
 
-  it('should get packages files correctly', () => {
-    cd('manifest');
+  describe('getPackagesFiles()', () => {
+    it('should get packages files for specify type', () => {
+      cd('manifest');
 
-    let manifest = new Manifest({
-      packages: {
-        "bower:jquery": {
-          js: 'dist/jquery.js'
-        },
-        "npm:bootstrap": [{
-          js: 'dist/js/bootstrap.js'
-        }]
-      }
-    });
+      let manifest = new Manifest({
+        packages: {
+          "bower:jquery": {
+            js: 'dist/jquery.js'
+          },
+          "npm:bootstrap": [{
+            js: 'dist/js/bootstrap.js'
+          }]
+        }
+      });
 
-    expect(manifest.getPackagesFiles()).to.be.eql({
-      js: [
+      expect(manifest.getPackagesFiles('js')).to.be.eql([
         'dist/jquery.js',
         'dist/js/bootstrap.js'
-      ]
+      ]);
+    });
+
+    it('should get packages files correctly', () => {
+      cd('manifest');
+
+      let manifest = new Manifest({
+        packages: {
+          "bower:jquery": {
+            js: 'dist/jquery.js'
+          },
+          "npm:bootstrap": [{
+            js: 'dist/js/bootstrap.js'
+          }]
+        }
+      });
+
+      expect(manifest.getPackagesFiles()).to.be.eql({
+        js: [
+          'dist/jquery.js',
+          'dist/js/bootstrap.js'
+        ]
+      });
+    });
+
+    it('should use first arg as options when it is a object', () => {
+      cd('manifest');
+
+      let manifest = new Manifest({
+        packages: {
+          "bower:jquery": {
+            js: 'dist/jquery.js'
+          },
+          "npm:bootstrap": [{
+            js: 'dist/js/bootstrap.js'
+          }]
+        }
+      });
+
+      expect(manifest.getPackagesFiles({})).to.be.eql({
+        js: [
+          'dist/jquery.js',
+          'dist/js/bootstrap.js'
+        ]
+      });
     });
   });
 
@@ -387,6 +431,8 @@ describe('Manifest', () => {
       expect(manifest.getConfigure('defaultRegistry')).to.be.equal('npm');
       expect(manifest.getConfigure('flattenPackages')).to.be.equal(true);
       expect(manifest.getConfigure('flattenTypes')).to.be.equal(false);
+      expect(manifest.getConfigure('verbose')).to.be.equal(true);
+      expect(manifest.getConfigure('override')).to.be.equal(true);
     });
 
     it('should flatten packages', () => {

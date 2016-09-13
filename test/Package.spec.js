@@ -24,7 +24,9 @@ describe('Package', () => {
     }, {
       registry: 'bower',
       main: false,
-      flatten: false
+      flattenPackages: false,
+      flattenTypes: false,
+      override: true
     });
 
     expect(pkg.name).to.be.equal('bootstrap');
@@ -32,7 +34,9 @@ describe('Package', () => {
     expect(pkg.options).to.be.eql({
       registry: 'bower',
       main: false,
-      flatten: false
+      flattenPackages: false,
+      flattenTypes: false,
+      override: true
     });
     expect(pkg.defination).to.be.eql({
       js: 'dist/js',
@@ -78,7 +82,9 @@ describe('Package', () => {
     }, {
       registry: 'npm',
       main: false,
-      flatten: false
+      flattenPackages: false,
+      flattenTypes: false,
+      override: true
     });
 
     expect(pkg.name).to.be.equal('bootstrap');
@@ -86,7 +92,9 @@ describe('Package', () => {
     expect(pkg.options).to.be.eql({
       registry: 'npm',
       main: false,
-      flatten: false
+      flattenPackages: false,
+      flattenTypes: false,
+      override: true
     });
     expect(pkg.defination).to.be.eql({
       js: 'dist/js',
@@ -134,7 +142,9 @@ describe('Package', () => {
     }, {
       registry: 'libs',
       main: false,
-      flatten: false
+      flattenPackages: false,
+      flattenTypes: false,
+      override: true
     });
 
     expect(pkg.name).to.be.equal('bootstrap');
@@ -142,7 +152,9 @@ describe('Package', () => {
     expect(pkg.options).to.be.eql({
       registry: 'libs',
       main: false,
-      flatten: false
+      flattenPackages: false,
+      flattenTypes: false,
+      override: true
     });
     expect(pkg.defination).to.be.eql({
       js: 'js',
