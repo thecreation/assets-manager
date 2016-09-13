@@ -10,9 +10,25 @@ $ npm install --save assets-manager
 ## Usage
 
 ```js
-import assetsManager from 'assets-manager';
+import AssetsManager from 'assets-manager';
 
-assetsManager('./manifest.json').copy();
+const assets = new AssetsManager('./manifest.json');
+
+// copy all packages files to destination
+assets.copyPackages();
+
+// clean all packages files from destination
+assets.cleanPackages();
+
+// look all packages
+assets.forEachPackage(function(pkg){
+
+});
+
+// loop all js files in the packages
+assets.forEachPackage('js', function(pkg, files){
+
+});
 ```
 
 
@@ -35,15 +51,19 @@ Defaults to the manifest.json directory.
 
 ### flattenPackages
 Whether to remove all package path parts from generated dest paths.
-Defaults to false.
+Defaults to true.
 
 ### flattenTypes
 Whether to remove all type path parts from generated dest paths.
 Defaults to false.
 
-### clean (false)
-Whether to clean old exists destination files.
-Defaults to false.
+### verbose
+Whether to console log copy and clean files.
+Defaults to true.
+
+### override
+Whether to override old exists destination files.
+Defaults to true.
 
 ### defaultRegistry
 Set default registry when package dont have a registry specify.
@@ -53,7 +73,7 @@ Defaults to npm.
 Set types that assets manage will classicfy files automatically.
 
 Defaults:
-```
+```js
 {
   js: '*.js',
   coffee: '*.coffee',
@@ -92,14 +112,14 @@ https://github.com/npm/node-semver#ranges
 You can write in the following ways define the package.
 
 1. simple mode
-```
+```js
 "PACKAGEKEY": true
 ```
 
 It will use default types config and use default options.
 
 2. use options only
-```
+```js
 "PACKAGEKEY": [
   true,
   {
@@ -111,7 +131,7 @@ It will use default types config and use default options.
 It will use default types config and custom options.
 
 3. use types only
-```
+```js
 "PACKAGEKEY": [{
   "js": "dist/js",
   "css": "dist/css"
@@ -121,7 +141,7 @@ It will use default types config and custom options.
 It will use custom types config and default options.
 
 4. use types only alternatively
-```
+```js
 "PACKAGEKEY": {
   "js": "dist/js",
   "css": "dist/css"
@@ -129,7 +149,7 @@ It will use custom types config and default options.
 ```
 
 5. use types and options
-```
+```js
 "PACKAGEKEY": [
   {
     "js": "dist/js",
@@ -146,7 +166,7 @@ It will use custom types config and custom options.
 ### Types config in the package definition
 
 1. Simple path mapping
-```
+```js
 {
   js: 'path-to-js',
   css: 'path-to-css'
@@ -154,7 +174,7 @@ It will use custom types config and custom options.
 ```
 
 2. Glob support
-```
+```js
 {
   js: '*.js',
   css: 'css/*.css'
@@ -162,7 +182,7 @@ It will use custom types config and custom options.
 ```
 
 3. Array support
-```
+```js
 {
   js: ['a.js', 'b.js'],
   css: ['css/*.css', '!css/*.min.css']
@@ -170,7 +190,7 @@ It will use custom types config and custom options.
 ```
 
 4. You can rename the files
-```
+```js
 js: {
   'bootstrap.js': 'dist/js/bootstrap.js'
 },
@@ -182,11 +202,12 @@ css: {
 
 ### Package options
 #### defaults
-```
+```js
 {
-  clean: true,
-  flattenPackages: false,
-  flattenTypes: false
+  flattenPackages: true,
+  flattenTypes: false,
+  verbose: true,
+  override: true,
   main: false,
   registry: 'npm'
 }
@@ -214,7 +235,9 @@ Assets manager provides 2 separate hooks that can be used to trigger other autom
     "vendor": "libs"
   },
   "defaultRegistry": "npm",
-  "flattenPackages": false,
+  "verbose": true,
+  "override": true,
+  "flattenPackages": true,
   "flattenTypes": false,
   "dest": "assets",
   "dests": {

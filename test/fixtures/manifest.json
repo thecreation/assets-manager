@@ -6,6 +6,8 @@
     "vendor": "vendor"
   },
   "defaultRegistry": "npm",
+  "verbose": true,
+  "override": true,
   "flattenPackages": false,
   "flattenTypes": false,
   "dest": "assets",
@@ -50,7 +52,6 @@
         "fonts": "dist/fonts"
       },
       {
-        "flatten": false,
         "registry": "bower",
         "dest": "assets",
         "dest:less": "asset/less"

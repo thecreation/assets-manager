@@ -1,3 +1,4 @@
+/*eslint max-nested-callbacks: ["error", 6]*/
 "use strict";
 
 import file from '../lib/file';
@@ -11,7 +12,6 @@ import chaiAsPromised from 'chai-as-promised';
 import sinonChai from 'sinon-chai';
 import sinon from 'sinon';
 
-
 chai.use(chaiAsPromised);
 chai.use(dirtyChai);
 chai.use(sinonChai);
@@ -22,8 +22,6 @@ const TEMP = path.join(__dirname, 'fixtures', '.tmp');
 
 
 describe('file', () => {
-  var sandbox;
-
   afterEach(() => {
     cd.reset();
   });

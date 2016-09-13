@@ -4,6 +4,8 @@
     "vendor": "libs"
   },
   "defaultRegistry": "npm",
+    "verbose": true,
+  "override": true,
   "flattenPackages": true,
   "flattenTypes": false,
   "dest": "assets",

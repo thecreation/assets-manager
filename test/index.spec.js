@@ -1,10 +1,17 @@
 "use strict";
 
 import assetsManager from '../lib';
-import {expect} from 'chai';
+import chai from 'chai';
+import dirtyChai from 'dirty-chai';
+import Manifest from '../lib/Manifest';
 
-// describe('assets-manager', function () {
-//   it('should have unit test!', function () {
-//     assert(false, 'we expected this package author to add actual unit tests.');
-//   });
-// });
+chai.use(dirtyChai);
+
+const expect = chai.expect;
+
+describe('assetsManager', function () {
+  it('should exists', () => {
+    expect(assetsManager).to.exist();
+    expect(assetsManager).to.be.equal(Manifest);
+  });
+});

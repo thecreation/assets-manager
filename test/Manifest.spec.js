@@ -1,3 +1,5 @@
+/*eslint max-nested-callbacks: ["error", 6]*/
+
 'use strict';
 
 import Manifest from '../lib/Manifest';
@@ -280,22 +282,21 @@ describe('Manifest', () => {
     });
 
     let count = 0;
-    manifest.forEachPackage(function(){
-      expect(this).to.be.an.instanceof(Package);
+    manifest.forEachPackage(function(pkg){
+      expect(pkg).to.be.an.instanceof(Package);
       count ++;
     });
     expect(count).to.be.equal(2);
 
     count = 0;
-    manifest.forEachPackage('js', function(files){
+    manifest.forEachPackage('js', function(pkg, files){
       count ++;
 
-      expect(this).to.be.an.instanceof(Package);
+      expect(pkg).to.be.an.instanceof(Package);
       expect(files).to.be.an.instanceof(Array);
     });
     expect(count).to.be.equal(2);
   });
-
 
   it('should copy package correctly', () => {
     cd('manifest');
