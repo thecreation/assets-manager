@@ -12,6 +12,7 @@ import finder from '../lib/finder';
 import chai from 'chai';
 import chaiAsPromised from 'chai-as-promised';
 import dirtyChai from 'dirty-chai';
+import del from 'del';
 
 chai.use(chaiAsPromised);
 chai.use(dirtyChai);
@@ -19,10 +20,12 @@ chai.use(dirtyChai);
 const expect = chai.expect;
 const FIXTURES = path.join(__dirname, 'fixtures');
 
+
 describe('Manifest', () => {
   afterEach(() => {
     cd.reset();
     configure.clear();
+    del.sync(path.resolve(FIXTURES, 'manifest', 'assets'));
   });
 
   it('should initialise correctly', () => {
@@ -505,6 +508,43 @@ describe('Manifest', () => {
 
             expect('js/bootstrap.js').to.not.be.oneOf(files);
             expect('css/bootstrap.css').to.not.be.oneOf(files);
+          });
+        });
+      });
+    });
+
+    describe('replaces', () => {
+      it('should working with replaces options', () => {
+        cd('manifest');
+
+        let manifest = new Manifest({
+          flattenTypes: false,
+          flattenPackages: true,
+          packages: {
+            "npm:bootstrap": [{
+              js: 'dist/js/bootstrap.js',
+              css: 'dist/js/bootstrap.css'
+            }, {
+              replaces: {
+                '*.js': {
+                  'bootstrap': 'anotherstring'
+                }
+              }
+            }]
+          },
+          dest: 'assets',
+          verbose: false
+        });
+
+        return manifest.copyPackages().then(() => {
+          let dir = path.resolve(FIXTURES, 'manifest', 'assets');
+          let files = finder.listFiles(dir);
+          expect('js/bootstrap.js').to.be.oneOf(files);
+
+          return file.read(path.resolve(FIXTURES, 'manifest', 'assets', 'js', 'bootstrap.js')).then(content => {
+            content = content.toString();
+            expect(content).to.contain('anotherstring');
+            expect(content).to.not.contain('bootstrap');
           });
         });
       });
