@@ -275,8 +275,10 @@ css: {
   flattenTypes: false,
   verbose: true,
   override: true,
+  registry: 'npm',
   main: false,
-  registry: 'npm'
+  replaces: {},
+  renames: {}
 }
 ```
 
@@ -318,7 +320,7 @@ Assets manager provides 4 separate hooks that can be used to trigger other autom
 
 ## Todos
 -   Hooks
--   Npm package version support
+-   Npm package versions
 -   File collections
 -   Dependencies
 
