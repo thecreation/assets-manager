@@ -527,7 +527,7 @@ describe('Manifest', () => {
             }, {
               replaces: {
                 '*.js': {
-                  'bootstrap': 'anotherstring'
+                  bootstrap: 'anotherstring'
                 }
               }
             }]
