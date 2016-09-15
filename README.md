@@ -286,20 +286,23 @@ These options will override the global options.
 #### main
 Set to true will use bower/npm's main files.
 
-#### replace
+#### replaces
+It will replace the content when copy to target directory. Regex supported.
 ```js
-"replace": {
+"replaces": {
   "*.css": {
-    "../fonts": "path-to-fonts"
+    "../fonts": "path-to-fonts",
+    "/fa-(\w+)/g": "icon-$1"
   }
 }
 ```
 
-#### rename
+#### renames
+It will rename the files when copy to target directory. Regex supported.
 ```js
-"rename": {
+"renames": {
   "jquery.min.js": "jquery.js",
-  "*.min.css": [/\.min.css$/, ".css"]
+  "*.min.css": ["/\.min\.css$/", ".css"]
 }
 ```
 

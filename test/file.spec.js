@@ -34,10 +34,125 @@ describe('file', () => {
     expect(file).to.exist();
   });
 
-  it('should return true if path is directory', () => {
-    const dir = path.resolve(FIXTURES, 'file');
-    expect(file.isDirectory(dir)).to.be.true();
+  describe('write()', () => {
+    it('should write content to a file', () => {
+      cd(TEMP);
+      let filepath = 'test.txt';
+      let content = 'hello world';
+
+      return file.write(filepath, content).then(()=>{
+        expect(file.exists(filepath)).to.be.true();
+
+        return file.read(filepath).then(c => {
+          expect(c.toString()).to.be.equal(content);
+        });
+      });
+    });
+
+    it('should work with full path', () => {
+      cd(TEMP);
+      let filepath = path.resolve(TEMP, 'test.txt');
+      let content = 'hello world';
+
+      return file.write(filepath, content).then(()=>{
+        expect(file.exists(filepath)).to.be.true();
+
+        return file.read(filepath).then(c => {
+          expect(c.toString()).to.be.equal(content);
+        });
+      });
+    });
+
+    it('should override the exists file', () => {
+      cd(TEMP);
+      let filepath = 'test.txt';
+      let content = 'hello world';
+
+      return file.write(filepath, 'init content').then(()=>{
+        return file.write(filepath, content).then(()=>{
+          return file.read(filepath).then(c => {
+            expect(c.toString()).to.be.equal(content);
+          });
+        });
+      });
+    });
   });
+
+  describe('remove()', () => {
+    it('should remove a file', () => {
+      cd(TEMP);
+      let filepath = 'test.txt';
+
+      return file.write(filepath, 'hello world').then(()=>{
+        expect(file.exists(filepath)).to.be.true();
+
+        return file.remove(filepath).then(() => {
+          expect(file.exists(filepath)).to.be.false();
+        });
+      });
+    });
+
+    it('should work with full path', () => {
+      cd(TEMP);
+      let filepath = path.resolve(TEMP, 'test.txt');
+
+      return file.write(filepath, 'hello world').then(()=>{
+        expect(file.exists(filepath)).to.be.true();
+
+        return file.remove(filepath).then(() => {
+          expect(file.exists(filepath)).to.be.false();
+        });
+      });
+    });
+  });
+
+  describe('read()', () => {
+    it('should read content of a file', () => {
+      cd(FIXTURES);
+      let filepath = path.join('file', 'read.txt');
+
+      return file.read(filepath).then(content => {
+        expect(content.toString()).to.contain('hello world');
+      });
+    });
+
+    it('should work with full path', () => {
+      cd(FIXTURES);
+      let filepath = path.resolve(FIXTURES, 'file', 'read.txt');
+
+      return file.read(filepath).then(content => {
+        expect(content.toString()).to.contain('hello world');
+      });
+    });
+  });
+
+  describe('replace()', () => {
+    it('should replace content of a file and save to another file', () => {
+      cd(FIXTURES);
+      let src = path.join('.tmp', 'from.txt');
+      let dest = path.join('.tmp', 'replace.txt');
+      let content = `hello world
+abcd1234
+efgh5678`;
+
+      return file.write(src, content).then(() => {
+        return file.replace(src, dest, {
+          'hello': 'foo',
+          'world': 'bar',
+          '/([a-z]+)([0-9]+)/g': '$2$1'
+        }).then(() => {
+          return file.read(dest).then(content => {
+            content = content.toString();
+
+            expect(content).to.contain('foo bar');
+            expect(content).to.contain('1234abcd');
+            expect(content).to.contain('5678efgh');
+          });
+        });
+      });
+    });
+  });
+
 
   describe('locate()', () => {
     it('should work with relative directory', () => {
@@ -66,6 +181,11 @@ describe('file', () => {
   });
 
   describe('isDirectory()', () => {
+    it('should return true if path is directory', () => {
+      const dir = path.resolve(FIXTURES, 'file');
+      expect(file.isDirectory(dir)).to.be.true();
+    });
+
     it('should work with relative directory', () => {
       cd(FIXTURES);
 

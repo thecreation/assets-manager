@@ -26,7 +26,9 @@ describe('Package', () => {
       main: false,
       flattenPackages: false,
       flattenTypes: false,
-      override: true
+      override: true,
+      renames: {},
+      replaces: {}
     });
 
     expect(pkg.name).to.be.equal('bootstrap');
@@ -37,8 +39,8 @@ describe('Package', () => {
       flattenPackages: false,
       flattenTypes: false,
       override: true,
-      rename: {},
-      replace: {}
+      renames: {},
+      replaces: {}
     });
     expect(pkg.defination).to.be.eql({
       js: 'dist/js',
@@ -86,7 +88,9 @@ describe('Package', () => {
       main: false,
       flattenPackages: false,
       flattenTypes: false,
-      override: true
+      override: true,
+      renames: {},
+      replaces: {}
     });
 
     expect(pkg.name).to.be.equal('bootstrap');
@@ -97,8 +101,8 @@ describe('Package', () => {
       flattenPackages: false,
       flattenTypes: false,
       override: true,
-      rename: {},
-      replace: {}
+      renames: {},
+      replaces: {}
     });
     expect(pkg.defination).to.be.eql({
       js: 'dist/js',
@@ -148,7 +152,9 @@ describe('Package', () => {
       main: false,
       flattenPackages: false,
       flattenTypes: false,
-      override: true
+      override: true,
+      renames: {},
+      replaces: {}
     });
 
     expect(pkg.name).to.be.equal('bootstrap');
@@ -159,8 +165,8 @@ describe('Package', () => {
       flattenPackages: false,
       flattenTypes: false,
       override: true,
-      rename: {},
-      replace: {}
+      renames: {},
+      replaces: {}
     });
     expect(pkg.defination).to.be.eql({
       js: 'js',

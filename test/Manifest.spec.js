@@ -438,8 +438,8 @@ describe('Manifest', () => {
       expect(manifest.getConfigure('override')).to.be.equal(true);
     });
 
-    describe('rename', () => {
-      it('should working with rename options', () => {
+    describe('renames', () => {
+      it('should working with renames options', () => {
         cd('manifest');
 
         let manifest = new Manifest({
@@ -450,7 +450,7 @@ describe('Manifest', () => {
               js: 'dist/js/bootstrap.min.js',
               css: 'dist/css/bootstrap.min.css'
             }, {
-              rename: {
+              renames: {
                 'bootstrap.min.js': 'bootstrap.js'
               }
             }]
