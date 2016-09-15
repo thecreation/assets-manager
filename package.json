@@ -68,7 +68,6 @@
   "dependencies": {
     "deep-extend": "^0.4.1",
     "dot-prop": "^4.0.0",
-    "escape-string-regexp": "^1.0.5",
     "fs-extra": "^0.30.0",
     "globby": "^6.0.0",
     "is-plain-object": "^2.0.1",
