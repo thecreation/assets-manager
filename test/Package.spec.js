@@ -36,7 +36,9 @@ describe('Package', () => {
       main: false,
       flattenPackages: false,
       flattenTypes: false,
-      override: true
+      override: true,
+      rename: {},
+      replace: {}
     });
     expect(pkg.defination).to.be.eql({
       js: 'dist/js',
@@ -94,7 +96,9 @@ describe('Package', () => {
       main: false,
       flattenPackages: false,
       flattenTypes: false,
-      override: true
+      override: true,
+      rename: {},
+      replace: {}
     });
     expect(pkg.defination).to.be.eql({
       js: 'dist/js',
@@ -154,7 +158,9 @@ describe('Package', () => {
       main: false,
       flattenPackages: false,
       flattenTypes: false,
-      override: true
+      override: true,
+      rename: {},
+      replace: {}
     });
     expect(pkg.defination).to.be.eql({
       js: 'js',
@@ -316,7 +322,7 @@ describe('Package', () => {
 
     let pkg = new Package('bootstrap', {
       js: {
-        'bootstrap.js': 'dist/js/bootstrap.js'
+        'bootstrap.js': 'dist/js/bootstrap.min.js'
       },
       css: {
         'main.css':'dist/css/bootstrap.css',
@@ -332,7 +338,7 @@ describe('Package', () => {
         'dist/css/bootstrap-theme.css'
       ],
       js: [
-        'dist/js/bootstrap.js'
+        'dist/js/bootstrap.min.js'
       ]
     });
   });

@@ -97,6 +97,12 @@ Just defined the registries in the manifest.json. The **npm** and **bower** are 
       "css": "dist/css",
       "less": "less",
       "fonts": "dist/fonts"
+    }, {
+      "replace": {
+        "*.css": {
+          "../fonts": "path-to-fonts"
+        }
+      }
     }],
     "vendor:modernizr": {
       "modernizr.js": "dist/modernizr.min.js",
@@ -280,6 +286,23 @@ These options will override the global options.
 #### main
 Set to true will use bower/npm's main files.
 
+#### replace
+```js
+"replace": {
+  "*.css": {
+    "../fonts": "path-to-fonts"
+  }
+}
+```
+
+#### rename
+```js
+"rename": {
+  "jquery.min.js": "jquery.js",
+  "*.min.css": [/\.min.css$/, ".css"]
+}
+```
+
 #### Hooks
 Assets manager provides 4 separate hooks that can be used to trigger other automated tools during assets copy or clean operate. 
 
@@ -292,7 +315,6 @@ Assets manager provides 4 separate hooks that can be used to trigger other autom
 
 ## Todos
 -   Hooks
--   Rename support
 -   Npm package version support
 -   File collections
 -   Dependencies

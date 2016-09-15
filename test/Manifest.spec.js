@@ -438,6 +438,78 @@ describe('Manifest', () => {
       expect(manifest.getConfigure('override')).to.be.equal(true);
     });
 
+    describe('rename', () => {
+      it('should working with rename options', () => {
+        cd('manifest');
+
+        let manifest = new Manifest({
+          flattenTypes: false,
+          flattenPackages: true,
+          packages: {
+            "npm:bootstrap": [{
+              js: 'dist/js/bootstrap.min.js',
+              css: 'dist/css/bootstrap.min.css'
+            }, {
+              rename: {
+                'bootstrap.min.js': 'bootstrap.js'
+              }
+            }]
+          },
+          dest: 'assets',
+          verbose: false
+        });
+
+        return manifest.copyPackages().then(() => {
+          let dir = path.resolve(FIXTURES, 'manifest', 'assets');
+          let files = finder.listFiles(dir);
+          expect('js/bootstrap.js').to.be.oneOf(files);
+
+          return manifest.cleanPackages().then(() => {
+            let dir = path.resolve(FIXTURES, 'assets');
+            let files = finder.listFiles(dir);
+
+            expect('js/bootstrap.js').to.not.be.oneOf(files);
+          });
+        });
+      });
+
+      it('should working with files mapping', () => {
+        cd('manifest');
+
+        let manifest = new Manifest({
+          flattenTypes: false,
+          flattenPackages: true,
+          packages: {
+            "npm:bootstrap": {
+              js: {
+                'bootstrap.js': 'dist/js/bootstrap.min.js',
+              },
+              css: {
+                'bootstrap.css': 'dist/css/bootstrap.min.css',
+              }
+            }
+          },
+          dest: 'assets',
+          verbose: false
+        });
+
+        return manifest.copyPackages().then(() => {
+          let dir = path.resolve(FIXTURES, 'manifest', 'assets');
+          let files = finder.listFiles(dir);
+          expect('js/bootstrap.js').to.be.oneOf(files);
+          expect('css/bootstrap.css').to.be.oneOf(files);
+
+          return manifest.cleanPackages().then(() => {
+            let dir = path.resolve(FIXTURES, 'assets');
+            let files = finder.listFiles(dir);
+
+            expect('js/bootstrap.js').to.not.be.oneOf(files);
+            expect('css/bootstrap.css').to.not.be.oneOf(files);
+          });
+        });
+      });
+    });
+
     describe('flattenTypes', () => {
       it('should flatten types when true', () => {
         cd('manifest');
