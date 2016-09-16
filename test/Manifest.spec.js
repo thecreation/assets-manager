@@ -57,6 +57,23 @@ describe('Manifest', () => {
     expect(manifest.data).to.be.eql(data);
   });
 
+  it('should override the manifest object with the second arg', () => {
+    cd('bower');
+
+    let data = {
+      registries: {
+        vendor: "vendor"
+      }
+    };
+    let manifest = new Manifest(data, {
+      registries: {
+        vendor: "libs"
+      }
+    });
+
+    expect(manifest.data.registries.vendor).to.be.equal('libs');
+  });
+
   it('should fail if manifest file is not valid', () => {
     let manifest;
     let error;
