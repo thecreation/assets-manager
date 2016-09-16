@@ -56,7 +56,7 @@ pkg.getMainFiles();
 ## Registries
 Assets manager can work with different package manager like **npm**, **bower**. It Also can use custom folders.
 
-Just defined the registries in the manifest.json. The **npm** and **bower** are supported by default, you don't need defined them again.
+Just defined the registries in the manifest.json. The **npm** and **bower** are supported by default, you don't need define them again.
 
 ```js
 "registries": {
