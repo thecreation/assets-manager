@@ -277,7 +277,7 @@ efgh5678`;
         src: path.join('file', 'non-exist.js'),
         dest: path.join('.tmp', 'non-exist.js'),
       }]).catch(error => {
-        expect(error).to.be.exist();
+        expect(error).to.exist();
         expect(error).to.contain('Cannot copy');
       });
     });
@@ -370,30 +370,30 @@ efgh5678`;
       });
     });
 
-    it('should fail if files not exists when options.ignore = false', () => {
+    it('should fail if files not exists when options.ignoreError = false', () => {
       cd(FIXTURES);
 
       return file.cleanFiles([{
         src: path.join('file', 'non-exist.js'),
         dest: path.join('.tmp', 'non-exist.js'),
       }], {
-        ignore: false
+        ignoreError: false
       }).catch(error => {
-        expect(error).to.be.exist();
+        expect(error).to.exist();
         expect(error).to.contain('Cannot clean');
       });
     });
 
-    it('should not fail if files not exists when options.ignore = true', () => {
+    it('should not fail if files not exists when options.ignoreError = true', () => {
       cd(FIXTURES);
 
       return file.cleanFiles([{
         src: path.join('file', 'non-exist.js'),
         dest: path.join('.tmp', 'non-exist.js'),
       }], {
-        ignore: true
+        ignoreError: true
       }).catch(error => {
-        expect(error).to.not.be.exist();
+        expect(error).to.not.exist();
       });
     });
 

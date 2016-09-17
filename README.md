@@ -33,6 +33,9 @@ assets.forEachPackage('js', function(pkg, files){
 
 });
 
+// check if package defined in manifest
+assets.hasPackage('jquery');
+
 // get package handler
 const pkg = assets.getPackage('bootstrap');
 
@@ -78,6 +81,7 @@ Just defined the registries in the manifest.json. The **npm** and **bower** are 
   "defaultRegistry": "npm",
   "verbose": true,
   "override": true,
+  "ignoreError": true,
   "flattenPackages": true,
   "flattenTypes": false,
   "dest": "assets",
@@ -133,6 +137,10 @@ Defaults to true.
 
 ### override
 Whether to override old exists destination files.
+Defaults to true.
+
+### ignoreError
+Whether to ignore errors when do copy and clean task. If set to false will break the proceeding.
 Defaults to true.
 
 ### defaultRegistry
@@ -334,7 +342,7 @@ Assets manager provides 4 separate hooks that can be used to trigger other autom
 
 ## Todos
 -   Hooks
--   Npm package versions
+-   Package name duplicate in different registries
 -   File collections
 -   Dependencies
 

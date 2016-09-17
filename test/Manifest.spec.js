@@ -376,23 +376,6 @@ describe('Manifest', () => {
       });
     });
 
-    it('should fail if package not exists', () => {
-      cd('manifest');
-
-      let manifest = new Manifest({
-        packages: {
-          "npm:bootstrap": [{
-            js: 'dist/js/bootstrap.js'
-          }]
-        },
-        verbose: false
-      });
-
-      return manifest.copyPackage('jquery').catch(error => {
-        expect(error).to.be.instanceOf(Error);
-      });
-    });
-
     it('should log package copy when options.verbose = true', () => {
       let log = {
         info: sinon.spy()
@@ -444,6 +427,110 @@ describe('Manifest', () => {
         expect(log.info).to.not.be.called();
       });
     });
+
+    it('should catch error if package not exists when ignoreError = false', () => {
+      cd('manifest');
+
+      let manifest = new Manifest({
+        packages: {
+          "npm:bootstrap": true
+        }
+      });
+
+      return manifest.copyPackage('undefined', {
+        ignoreError: false
+      }).then(() => {
+        expect('called').to.not.exist();
+      }).catch((error) => {
+        expect(error).to.exist();
+        expect(error).to.be.instanceOf(Error);
+        expect(error.message).to.be.equal('Package undefined is not exists.');
+      });
+    });
+
+    it('should not catch error if package not exists when ignoreError = true', () => {
+      cd('manifest');
+
+      let manifest = new Manifest({
+        packages: {
+          "npm:bootstrap": true
+        }
+      });
+
+      let log = {
+        info: sinon.spy()
+      };
+
+      return manifest.copyPackage('undefined', {
+        ignoreError: true,
+        log: log.info
+      }).then(() => {
+        expect(log.info).to.be.called();
+      }).catch((error) => {
+        expect(error).to.not.exist();
+      });
+    });
+
+    it('should catch error if package not installed when ignoreError = false', () => {
+      cd('manifest');
+
+      let manifest = new Manifest({
+        packages: {
+          "npm:uninstalled": true
+        }
+      });
+
+      return manifest.copyPackage('uninstalled', {
+        ignoreError: false
+      }).then(() => {
+        expect('called').to.not.exist();
+      }).catch((error) => {
+        expect(error).to.exist();
+        expect(error).to.be.instanceOf(Error);
+        expect(error.message).to.contain('Package npm:uninstalled is not installed');
+      });
+    });
+
+    it('should not catch error if package not exists when ignoreError = true', () => {
+      cd('manifest');
+
+      let manifest = new Manifest({
+        packages: {
+          "npm:uninstalled": true
+        }
+      });
+
+      let log = {
+        info: sinon.spy()
+      };
+
+      return manifest.copyPackage('uninstalled', {
+        ignoreError: true,
+        log: log.info
+      }).then(() => {
+        expect(log.info).to.be.called();
+      }).catch((error) => {
+        expect(error).to.not.exist();
+      });
+    });
+
+    it('should catch error if package not exists by default', () => {
+      cd('manifest');
+
+      let manifest = new Manifest({
+        packages: {
+          "npm:uninstalled": true
+        }
+      });
+
+      return manifest.copyPackage('uninstalled').then(() => {
+        expect('called').to.not.exist();
+      }).catch((error) => {
+        expect(error).to.exist();
+        expect(error).to.be.instanceOf(Error);
+        expect(error.message).to.contain('Package npm:uninstalled is not installed');
+      });
+    });
   });
 
   describe('cleanPackage()', function(){
@@ -463,23 +550,6 @@ describe('Manifest', () => {
         let dir = path.resolve(FIXTURES, 'manifest', 'assets');
         let files = finder.listFiles(dir);
         expect('js/bootstrap.js').to.not.be.oneOf(files);
-      });
-    });
-
-    it('should fail if package not exists', () => {
-      cd('manifest');
-
-      let manifest = new Manifest({
-        packages: {
-          "npm:bootstrap": [{
-            js: 'dist/js/bootstrap.js'
-          }]
-        },
-        verbose: false
-      });
-
-      return manifest.cleanPackage('jquery').catch(error => {
-        expect(error).to.be.instanceOf(Error);
       });
     });
 
@@ -532,6 +602,110 @@ describe('Manifest', () => {
         let files = finder.listFiles(dir);
         expect('js/bootstrap.js').to.not.be.oneOf(files);
         expect(log.info).to.not.be.called();
+      });
+    });
+
+    it('should catch error if package not exists when ignoreError = false', () => {
+      cd('manifest');
+
+      let manifest = new Manifest({
+        packages: {
+          "npm:bootstrap": true
+        }
+      });
+
+      return manifest.cleanPackage('undefined', {
+        ignoreError: false
+      }).then(() => {
+        expect('called').to.not.exist();
+      }).catch((error) => {
+        expect(error).to.exist();
+        expect(error).to.be.instanceOf(Error);
+        expect(error.message).to.be.equal('Package undefined is not exists.');
+      });
+    });
+
+    it('should not catch error if package not exists when ignoreError = true', () => {
+      cd('manifest');
+
+      let manifest = new Manifest({
+        packages: {
+          "npm:bootstrap": true
+        }
+      });
+
+      let log = {
+        info: sinon.spy()
+      };
+
+      return manifest.cleanPackage('undefined', {
+        ignoreError: true,
+        log: log.info
+      }).then(() => {
+        expect(log.info).to.be.called();
+      }).catch((error) => {
+        expect(error).to.not.exist();
+      });
+    });
+
+    it('should catch error if package not installed when ignoreError = false', () => {
+      cd('manifest');
+
+      let manifest = new Manifest({
+        packages: {
+          "npm:uninstalled": true
+        }
+      });
+
+      return manifest.cleanPackage('uninstalled', {
+        ignoreError: false
+      }).then(() => {
+        expect('called').to.not.exist();
+      }).catch((error) => {
+        expect(error).to.exist();
+        expect(error).to.be.instanceOf(Error);
+        expect(error.message).to.contain('Package npm:uninstalled is not installed');
+      });
+    });
+
+    it('should not catch error if package not exists when ignoreError = true', () => {
+      cd('manifest');
+
+      let manifest = new Manifest({
+        packages: {
+          "npm:uninstalled": true
+        }
+      });
+
+      let log = {
+        info: sinon.spy()
+      };
+
+      return manifest.cleanPackage('uninstalled', {
+        ignoreError: true,
+        log: log.info
+      }).then(() => {
+        expect(log.info).to.be.called();
+      }).catch((error) => {
+        expect(error).to.not.exist();
+      });
+    });
+
+    it('should catch error if package not exists by default', () => {
+      cd('manifest');
+
+      let manifest = new Manifest({
+        packages: {
+          "npm:uninstalled": true
+        }
+      });
+
+      return manifest.cleanPackage('uninstalled').then(() => {
+        expect('called').to.not.exist();
+      }).catch((error) => {
+        expect(error).to.exist();
+        expect(error).to.be.instanceOf(Error);
+        expect(error.message).to.contain('Package npm:uninstalled is not installed');
       });
     });
   });
