@@ -277,16 +277,42 @@ describe('Manifest', () => {
     });
   });
 
-  it('should get package by name correctly', () => {
-    cd('manifest');
+  describe('getPackage()', () => {
+    it('should get package by name correctly', () => {
+      cd('manifest');
 
-    let manifest = new Manifest();
-    let pkg = manifest.getPackage('bootstrap');
+      let manifest = new Manifest();
+      let pkg = manifest.getPackage('bootstrap');
 
-    expect(pkg).to.be.an.instanceof(Package);
-    expect(pkg.name).to.be.equal('bootstrap');
+      expect(pkg).to.be.an.instanceof(Package);
+      expect(pkg.name).to.be.equal('bootstrap');
 
-    expect(manifest.getPackage('un-exists')).to.be.equal(null);
+      expect(manifest.getPackage('un-exists')).to.be.equal(null);
+    });
+  });
+
+  describe('hasPackage()', () => {
+    it('should return true if package defined in manifest', () => {
+      let manifest = new Manifest({
+        packages: {
+          "bower:jquery": true,
+          "npm:bootstrap": true
+        }
+      });
+
+      expect(manifest.hasPackage('jquery')).to.be.true();
+    });
+
+    it('should return false if package defined in manifest', () => {
+      let manifest = new Manifest({
+        packages: {
+          "bower:jquery": true,
+          "npm:bootstrap": true
+        }
+      });
+
+      expect(manifest.hasPackage('un-defined')).to.be.false();
+    });
   });
 
   it('should loop packages correctly', () => {
