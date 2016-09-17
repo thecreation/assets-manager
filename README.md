@@ -7,6 +7,27 @@
 $ npm install --save-dev assets-manager
 ```
 
+## Work with gulp
+You can integrate with gulp easily:
+```js
+var AssetsManager = require('assets-manager');
+var manager = new AssetsManager('manifest.json');
+
+gulp.task('assets', function(done){
+  manager.copyPackages().then(function(){
+    done();
+  });
+});
+gulp.task('clean:assets', function(done){
+  manager.cleanPackages().then(function(){
+    done();
+  });
+});
+```
+
+### See in action
+[![gulp](demo/gulp.gif)]
+
 ## Usage
 
 ```js
@@ -57,7 +78,6 @@ pkg.getFilesByType();
 // get main files of package
 pkg.getMainFiles();
 ```
-
 
 ## Registries
 Assets manager can work with different package manager like **npm**, **bower**. It Also can use custom folders.

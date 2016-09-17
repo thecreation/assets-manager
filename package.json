@@ -16,7 +16,9 @@
     "bower",
     "npm",
     "copy",
-    "asset"
+    "asset",
+    "assets",
+    "gulp"
   ],
   "engines": {
     "node": ">=4.0.0"
