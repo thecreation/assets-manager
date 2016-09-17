@@ -26,7 +26,7 @@ gulp.task('clean:assets', function(done){
 ```
 
 ### See in action
-[![gulp](https://raw.githubusercontent.com/amazingSurge/assets-manager/master/demo/gulp.gif)]
+![gulp](https://raw.githubusercontent.com/amazingSurge/assets-manager/master/demo/gulp.gif)
 
 ## Usage
 
