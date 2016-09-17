@@ -109,12 +109,12 @@ describe('Bower Registry', () => {
       expect(bower.getPackageInfo('bootstrap', 'hello')).to.be.equal(undefined);
     });
 
-    it('should return null if package not exists', () => {
+    it('should return empty object if package not exists', () => {
       cd('bower');
 
       let bower = new Bower();
       let results = bower.getPackageInfo('non-exists');
-      expect(results).to.null();
+      expect(results).to.be.eql({});
     });
   });
 
@@ -152,12 +152,12 @@ describe('Bower Registry', () => {
       ]);
     });
 
-    it('should return main files with null if package not exists', () => {
+    it('should return main files with empty array if package not exists', () => {
       cd('bower');
 
       let bower = new Bower();
       let results = bower.getPackageMainFiles('non-exists');
-      expect(results).to.null();
+      expect(results).to.be.eql([]);
     });
 
     it('should convent single main file to array', () => {

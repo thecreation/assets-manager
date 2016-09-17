@@ -13,13 +13,15 @@ import chai from 'chai';
 import chaiAsPromised from 'chai-as-promised';
 import dirtyChai from 'dirty-chai';
 import del from 'del';
+import sinonChai from 'sinon-chai';
+import sinon from 'sinon';
 
 chai.use(chaiAsPromised);
 chai.use(dirtyChai);
+chai.use(sinonChai);
 
 const expect = chai.expect;
 const FIXTURES = path.join(__dirname, 'fixtures');
-
 
 describe('Manifest', () => {
   afterEach(() => {
@@ -364,6 +366,58 @@ describe('Manifest', () => {
         expect(error).to.be.instanceOf(Error);
       });
     });
+
+    it('should log package copy when options.verbose = true', () => {
+      let log = {
+        info: sinon.spy()
+      };
+
+      cd('manifest');
+
+      let manifest = new Manifest({
+        packages: {
+          "npm:bootstrap": [{
+            js: 'dist/js/bootstrap.js'
+          }]
+        },
+        verbose: true
+      });
+
+      return manifest.copyPackage('bootstrap', {
+        log: log.info
+      }).then(() => {
+        let dir = path.resolve(FIXTURES, 'manifest', 'assets');
+        let files = finder.listFiles(dir);
+        expect('js/bootstrap.js').to.be.oneOf(files);
+        expect(log.info).to.be.calledTwice();
+      });
+    });
+
+    it('should not log package copy when options.verbose = false', () => {
+      let log = {
+        info: sinon.spy()
+      };
+
+      cd('manifest');
+
+      let manifest = new Manifest({
+        packages: {
+          "npm:bootstrap": [{
+            js: 'dist/js/bootstrap.js'
+          }]
+        },
+        verbose: false
+      });
+
+      return manifest.copyPackage('bootstrap', {
+        log: log.info
+      }).then(() => {
+        let dir = path.resolve(FIXTURES, 'manifest', 'assets');
+        let files = finder.listFiles(dir);
+        expect('js/bootstrap.js').to.be.oneOf(files);
+        expect(log.info).to.not.be.called();
+      });
+    });
   });
 
   describe('cleanPackage()', function(){
@@ -400,6 +454,58 @@ describe('Manifest', () => {
 
       return manifest.cleanPackage('jquery').catch(error => {
         expect(error).to.be.instanceOf(Error);
+      });
+    });
+
+    it('should log package copy when options.verbose = true', () => {
+      let log = {
+        info: sinon.spy()
+      };
+
+      cd('manifest');
+
+      let manifest = new Manifest({
+        packages: {
+          "npm:bootstrap": [{
+            js: 'dist/js/bootstrap.js'
+          }]
+        },
+        verbose: true
+      });
+
+      return manifest.cleanPackage('bootstrap', {
+        log: log.info
+      }).then(() => {
+        let dir = path.resolve(FIXTURES, 'manifest', 'assets');
+        let files = finder.listFiles(dir);
+        expect('js/bootstrap.js').to.not.be.oneOf(files);
+        expect(log.info).to.be.calledTwice();
+      });
+    });
+
+    it('should not log package clean when options.verbose = false', () => {
+      let log = {
+        info: sinon.spy()
+      };
+
+      cd('manifest');
+
+      let manifest = new Manifest({
+        packages: {
+          "npm:bootstrap": [{
+            js: 'dist/js/bootstrap.js'
+          }]
+        },
+        verbose: false
+      });
+
+      return manifest.cleanPackage('bootstrap', {
+        log: log.info
+      }).then(() => {
+        let dir = path.resolve(FIXTURES, 'manifest', 'assets');
+        let files = finder.listFiles(dir);
+        expect('js/bootstrap.js').to.not.be.oneOf(files);
+        expect(log.info).to.not.be.called();
       });
     });
   });

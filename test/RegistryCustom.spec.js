@@ -134,13 +134,13 @@ describe('Custom Registry', () => {
       });
     });
 
-    it('should return null if package not exists', () => {
+    it('should return empty object if package not exists', () => {
       cd('custom');
       let custom = new Custom('libs', {
         dir: 'libs'
       });
       let results = custom.getPackageInfo('non-exists');
-      expect(results).to.null();
+      expect(results).to.be.eql({});
     });
   });
 });
