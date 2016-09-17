@@ -318,31 +318,88 @@ describe('Manifest', () => {
     expect(count).to.be.equal(2);
   });
 
-  it('should copy package correctly', () => {
-    cd('manifest');
+  describe('copyPackage()', function(){
+    it('should copy package correctly', () => {
+      cd('manifest');
 
-    let manifest = new Manifest({
-      packages: {
-        "bower:jquery": {
-          js: 'dist/jquery.js'
+      let manifest = new Manifest({
+        packages: {
+          "bower:jquery": {
+            js: 'dist/jquery.js'
+          },
+          "npm:bootstrap": [{
+            js: 'dist/js/bootstrap.js'
+          }]
         },
-        "npm:bootstrap": [{
-          js: 'dist/js/bootstrap.js'
-        }]
-      },
-      verbose: false
+        verbose: false
+      });
+
+      return manifest.copyPackage('bootstrap').then(() => {
+        let dir = path.resolve(FIXTURES, 'manifest', 'assets');
+        let files = finder.listFiles(dir);
+        expect('js/bootstrap.js').to.be.oneOf(files);
+
+        return manifest.cleanPackage('bootstrap').then(() => {
+          let dir = path.resolve(FIXTURES, 'assets');
+          let files = finder.listFiles(dir);
+
+          expect('js/bootstrap.js').to.not.be.oneOf(files);
+        });
+      });
     });
 
-    return manifest.copyPackage('bootstrap').then(() => {
-      let dir = path.resolve(FIXTURES, 'manifest', 'assets');
-      let files = finder.listFiles(dir);
-      expect('js/bootstrap.js').to.be.oneOf(files);
+    it('should fail if package not exists', () => {
+      cd('manifest');
+
+      let manifest = new Manifest({
+        packages: {
+          "npm:bootstrap": [{
+            js: 'dist/js/bootstrap.js'
+          }]
+        },
+        verbose: false
+      });
+
+      return manifest.copyPackage('jquery').catch(error => {
+        expect(error).to.be.instanceOf(Error);
+      });
+    });
+  });
+
+  describe('cleanPackage()', function(){
+    it('should clean package files correctly', () => {
+      cd('manifest');
+
+      let manifest = new Manifest({
+        packages: {
+          "npm:bootstrap": [{
+            js: 'dist/js/bootstrap.js'
+          }]
+        },
+        verbose: false
+      });
 
       return manifest.cleanPackage('bootstrap').then(() => {
-        let dir = path.resolve(FIXTURES, 'assets');
+        let dir = path.resolve(FIXTURES, 'manifest', 'assets');
         let files = finder.listFiles(dir);
-
         expect('js/bootstrap.js').to.not.be.oneOf(files);
+      });
+    });
+
+    it('should fail if package not exists', () => {
+      cd('manifest');
+
+      let manifest = new Manifest({
+        packages: {
+          "npm:bootstrap": [{
+            js: 'dist/js/bootstrap.js'
+          }]
+        },
+        verbose: false
+      });
+
+      return manifest.cleanPackage('jquery').catch(error => {
+        expect(error).to.be.instanceOf(Error);
       });
     });
   });

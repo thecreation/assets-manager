@@ -42,6 +42,9 @@ pkg.getInfo();
 // get package path
 pkg.getPath();
 
+// check if package is installed
+pkg.isInstalled();
+
 // get all files in package 
 pkg.getFiles();
 

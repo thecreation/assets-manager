@@ -202,168 +202,244 @@ describe('Package', () => {
     expect(pkg.getInfo('name')).to.be.equal('bootstrap');
   });
 
-  it('should get files correctly', () => {
-    cd('bower');
+  describe('isInstalled()', () => {
+    it('should return true if bower package is installed', () => {
+      cd('bower');
 
-    let pkg = new Package('normalize-css', true, {
-      registry: 'bower'
+      let pkg = new Package('normalize-css', true, {
+        registry: 'bower'
+      });
+
+      expect(pkg.isInstalled()).to.be.true();
     });
 
-    expect(pkg.getFiles()).to.be.eql([
-      'bower.json',
-      'LICENSE.md',
-      'normalize.css'
-    ]);
+    it('should return true if npm package is installed', () => {
+      cd('npm');
 
-    // it should use cached files
-    expect(pkg.getFiles()).to.be.eql([
-      'bower.json',
-      'LICENSE.md',
-      'normalize.css'
-    ]);
+      let pkg = new Package('bootstrap', {
+        js: 'dist/js',
+        css: 'dist/css',
+        fonts: 'dist/fonts'
+      }, {
+        registry: 'npm'
+      });
+
+      expect(pkg.isInstalled()).to.be.true();
+    });
+
+    it('should return true if custom package is installed', () => {
+      cd('custom');
+      configure.set('registry.libs.dir', 'libs');
+
+      let pkg = new Package('bootstrap', true, {
+        registry: 'libs',
+      });
+
+      expect(pkg.isInstalled()).to.be.true();
+    });
+
+    it('should return false if bower package is not installed', () => {
+      cd('bower');
+
+      let pkg = new Package('uninstalled', true, {
+        registry: 'bower'
+      });
+
+      expect(pkg.isInstalled()).to.be.false();
+    });
+
+    it('should return false if npm package is not installed', () => {
+      cd('npm');
+
+      let pkg = new Package('uninstalled', true, {
+        registry: 'npm'
+      });
+
+      expect(pkg.isInstalled()).to.be.false();
+    });
+
+    it('should return false if custom package is not installed', () => {
+      cd('custom');
+      configure.set('registry.libs.dir', 'libs');
+
+      let pkg = new Package('uninstalled', true, {
+        registry: 'libs',
+      });
+
+      expect(pkg.isInstalled()).to.be.false();
+    });
   });
 
-  it('should get files types automatically without definations', () => {
-    cd('bower');
+  describe('getFiles()', () => {
+    it('should get files correctly', () => {
+      cd('bower');
 
-    let pkg = new Package('normalize-css', true, {
-      registry: 'bower'
-    });
+      let pkg = new Package('normalize-css', true, {
+        registry: 'bower'
+      });
 
-    expect(pkg.getTypedFiles()).to.be.eql(fillTypes({
-      css: [
+      expect(pkg.getFiles()).to.be.eql([
+        'bower.json',
+        'LICENSE.md',
         'normalize.css'
-      ]
-    }));
+      ]);
+
+      // it should use cached files
+      expect(pkg.getFiles()).to.be.eql([
+        'bower.json',
+        'LICENSE.md',
+        'normalize.css'
+      ]);
+    });
   });
 
-  it('should get main files correctly', () => {
-    cd('bower');
+  describe('getTypedFiles()', () => {
+    it('should get files types automatically without definations', () => {
+      cd('bower');
 
-    let bower = new Package('normalize-css', true, {
-      registry: 'bower'
+      let pkg = new Package('normalize-css', true, {
+        registry: 'bower'
+      });
+
+      expect(pkg.getTypedFiles()).to.be.eql(fillTypes({
+        css: [
+          'normalize.css'
+        ]
+      }));
     });
 
-    expect(bower.getMainFiles()).to.be.eql(['normalize.css']);
+    it('should get files types with files array definations', () => {
+      cd('bower');
 
-    cd('npm');
-    let npm = new Package('normalize.css', true, {
-      registry: 'npm'
+      let pkg = new Package('bootstrap', {
+        js: ['dist/js/bootstrap.js'],
+        css: ['dist/css/bootstrap.css', 'dist/css/bootstrap-theme.css']
+      }, {
+        registry: 'bower'
+      });
+
+      expect(pkg.getTypedFiles()).to.be.eql({
+        css: [
+          'dist/css/bootstrap.css',
+          'dist/css/bootstrap-theme.css'
+        ],
+        js: [
+          'dist/js/bootstrap.js'
+        ]
+      });
     });
 
-    expect(npm.getMainFiles()).to.be.eql(['normalize.css']);
+    it('should get files types with definations', () => {
+      cd('bower');
+
+      let pkg = new Package('bootstrap', {
+        js: 'dist/js',
+        css: ['dist/css/*.css', '!dist/css/*.min.css']
+      }, {
+        registry: 'bower'
+      });
+
+      expect(pkg.getTypedFiles()).to.be.eql({
+        css: [
+          'dist/css/bootstrap-theme.css',
+          'dist/css/bootstrap.css'
+        ],
+        js: [
+          'dist/js/bootstrap.js',
+          'dist/js/bootstrap.min.js',
+          'dist/js/npm.js'
+        ]
+      });
+    });
+
+    it('should get files types with files object definations', () => {
+      cd('bower');
+
+      let pkg = new Package('bootstrap', {
+        js: {
+          'bootstrap.js': 'dist/js/bootstrap.min.js'
+        },
+        css: {
+          'main.css':'dist/css/bootstrap.css',
+          'theme.css':'dist/css/bootstrap-theme.css'
+        }
+      }, {
+        registry: 'bower'
+      });
+
+      expect(pkg.getTypedFiles()).to.be.eql({
+        css: [
+          'dist/css/bootstrap.css',
+          'dist/css/bootstrap-theme.css'
+        ],
+        js: [
+          'dist/js/bootstrap.min.js'
+        ]
+      });
+    });
+
+    it('should get files types with main files', () => {
+      cd('bower');
+
+      let pkg = new Package('bootstrap', true, {
+        registry: 'bower',
+        main: true
+      });
+
+      expect(pkg.getTypedFiles()).to.be.eql(fillTypes({
+        less: [
+          'less/bootstrap.less'
+        ],
+        js: [
+          'dist/js/bootstrap.js'
+        ]
+      }));
+    });
   });
 
-  it('should get files type with definations', () => {
-    cd('bower');
+  describe('getMainFiles()', () => {
+    it('should get main files correctly', () => {
+      cd('bower');
 
-    let pkg = new Package('bootstrap', {
-      js: 'dist/js',
-      css: ['dist/css/*.css', '!dist/css/*.min.css']
-    }, {
-      registry: 'bower'
+      let bower = new Package('normalize-css', true, {
+        registry: 'bower'
+      });
+
+      expect(bower.getMainFiles()).to.be.eql(['normalize.css']);
+
+      cd('npm');
+      let npm = new Package('normalize.css', true, {
+        registry: 'npm'
+      });
+
+      expect(npm.getMainFiles()).to.be.eql(['normalize.css']);
     });
-
-    expect(pkg.getFilesByType('js')).to.be.eql([
-      'dist/js/bootstrap.js',
-      'dist/js/bootstrap.min.js',
-      'dist/js/npm.js'
-    ]);
-
-    expect(pkg.getFilesByType('css')).to.be.eql([
-      'dist/css/bootstrap-theme.css',
-      'dist/css/bootstrap.css'
-    ]);
-
-    expect(pkg.getFilesByType('fonts')).to.be.eql([
-    ]);
   });
 
-  it('should get files types with definations', () => {
-    cd('bower');
+  describe('getFilesByType()', () => {
+    it('should get files type with definations', () => {
+      cd('bower');
 
-    let pkg = new Package('bootstrap', {
-      js: 'dist/js',
-      css: ['dist/css/*.css', '!dist/css/*.min.css']
-    }, {
-      registry: 'bower'
-    });
+      let pkg = new Package('bootstrap', {
+        js: 'dist/js',
+        css: ['dist/css/*.css', '!dist/css/*.min.css']
+      }, {
+        registry: 'bower'
+      });
 
-    expect(pkg.getTypedFiles()).to.be.eql({
-      css: [
-        'dist/css/bootstrap-theme.css',
-        'dist/css/bootstrap.css'
-      ],
-      js: [
+      expect(pkg.getFilesByType('js')).to.be.eql([
         'dist/js/bootstrap.js',
         'dist/js/bootstrap.min.js',
         'dist/js/npm.js'
-      ]
+      ]);
+
+      expect(pkg.getFilesByType('css')).to.be.eql([
+        'dist/css/bootstrap-theme.css',
+        'dist/css/bootstrap.css'
+      ]);
+
+      expect(pkg.getFilesByType('fonts')).to.be.eql([
+      ]);
     });
-  });
-
-  it('should get files types with files array definations', () => {
-    cd('bower');
-
-    let pkg = new Package('bootstrap', {
-      js: ['dist/js/bootstrap.js'],
-      css: ['dist/css/bootstrap.css', 'dist/css/bootstrap-theme.css']
-    }, {
-      registry: 'bower'
-    });
-
-    expect(pkg.getTypedFiles()).to.be.eql({
-      css: [
-        'dist/css/bootstrap.css',
-        'dist/css/bootstrap-theme.css'
-      ],
-      js: [
-        'dist/js/bootstrap.js'
-      ]
-    });
-  });
-
-  it('should get files types with files object definations', () => {
-    cd('bower');
-
-    let pkg = new Package('bootstrap', {
-      js: {
-        'bootstrap.js': 'dist/js/bootstrap.min.js'
-      },
-      css: {
-        'main.css':'dist/css/bootstrap.css',
-        'theme.css':'dist/css/bootstrap-theme.css'
-      }
-    }, {
-      registry: 'bower'
-    });
-
-    expect(pkg.getTypedFiles()).to.be.eql({
-      css: [
-        'dist/css/bootstrap.css',
-        'dist/css/bootstrap-theme.css'
-      ],
-      js: [
-        'dist/js/bootstrap.min.js'
-      ]
-    });
-  });
-
-  it('should get files types with main files', () => {
-    cd('bower');
-
-    let pkg = new Package('bootstrap', true, {
-      registry: 'bower',
-      main: true
-    });
-
-    expect(pkg.getTypedFiles()).to.be.eql(fillTypes({
-      less: [
-        'less/bootstrap.less'
-      ],
-      js: [
-        'dist/js/bootstrap.js'
-      ]
-    }));
   });
 });
