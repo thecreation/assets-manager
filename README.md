@@ -163,20 +163,10 @@ Defaults:
 The package key in the manifest.json take the following form:
 ```
 "registry:package"
-"registry:package@version"
 "package"
-"package@version"
 ```
 
-The "package" and "package@version" shorter form will use the default registry.
-
-The name of the dependency in the package can be any custom alias, that is then only locally scoped to that specific package.
-
-Typically semver-compatible versions should be used of the form ^x.y.z. Tilde ranges, ~x.y.z are also supported. Ranges without a patch or minor are also supported - x, x.y, ~x.y, ^x.y.
-
-More info about versions:
-https://docs.npmjs.com/getting-started/semantic-versioning
-https://github.com/npm/node-semver#ranges
+The "package" shorter form will use the default registry.
 
 ### Package definition
 You can write in the following ways define the package.
@@ -186,7 +176,7 @@ You can write in the following ways define the package.
 "PACKAGEKEY": true
 ```
 
-It will use default types config and use default options.
+It will use main files and use default options. 
 
 2.use options only
 ```js
@@ -198,9 +188,34 @@ It will use default types config and use default options.
 ]
 ```
 
-It will use default types config and custom options.
+It will use main files custom options.
 
-3.use types only
+3.use auto types only
+It will look for all files in the package folder, and classify the files automatically. The default options will be used in this mode. 
+```js
+"PACKAGEKEY": "**/*"
+```
+
+You can use glob array also.
+```js
+"PACKAGEKEY": ["dist/**/*.js", "!dist/**/*.min.js"]
+```
+
+4.use auto types and options
+```js
+"PACKAGEKEY": ["**/*", {
+  "registry": "bower"
+}]
+```
+
+glob array supported too.
+```js
+"PACKAGEKEY": [["**/*", "!**/*.min.js"], {
+  "registry": "bower"
+}]
+```
+
+5.use types only
 ```js
 "PACKAGEKEY": [{
   "js": "dist/js",
@@ -210,7 +225,7 @@ It will use default types config and custom options.
 
 It will use custom types config and default options.
 
-4.use types only alternatively
+6.use types only alternatively
 ```js
 "PACKAGEKEY": {
   "js": "dist/js",
@@ -218,7 +233,7 @@ It will use custom types config and default options.
 }
 ```
 
-5.use types and options
+7.use types and options
 ```js
 "PACKAGEKEY": [
   {
@@ -279,7 +294,6 @@ css: {
   verbose: true,
   override: true,
   registry: 'npm',
-  main: false,
   replaces: {},
   renames: {}
 }
@@ -287,9 +301,6 @@ css: {
 
 #### flattenPackages, flattenTypes, verbose, override, registry
 These options will override the global options.
-
-#### main
-Set to true will use bower/npm's main files.
 
 #### replaces
 It will replace the content when copy to target directory. Regex supported.

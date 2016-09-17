@@ -23,7 +23,6 @@ describe('Package', () => {
       fonts: 'dist/fonts'
     }, {
       registry: 'bower',
-      main: false,
       flattenPackages: false,
       flattenTypes: false,
       override: true,
@@ -35,7 +34,6 @@ describe('Package', () => {
     expect(pkg.registry).to.be.an.instanceof(Bower);
     expect(pkg.options).to.be.eql({
       registry: 'bower',
-      main: false,
       flattenPackages: false,
       flattenTypes: false,
       override: true,
@@ -85,7 +83,6 @@ describe('Package', () => {
       fonts: 'dist/fonts'
     }, {
       registry: 'npm',
-      main: false,
       flattenPackages: false,
       flattenTypes: false,
       override: true,
@@ -97,7 +94,6 @@ describe('Package', () => {
     expect(pkg.registry).to.be.an.instanceof(Npm);
     expect(pkg.options).to.be.eql({
       registry: 'npm',
-      main: false,
       flattenPackages: false,
       flattenTypes: false,
       override: true,
@@ -149,7 +145,6 @@ describe('Package', () => {
       fonts: 'fonts'
     }, {
       registry: 'libs',
-      main: false,
       flattenPackages: false,
       flattenTypes: false,
       override: true,
@@ -161,7 +156,6 @@ describe('Package', () => {
     expect(pkg.registry).to.be.an.instanceof(Custom);
     expect(pkg.options).to.be.eql({
       registry: 'libs',
-      main: false,
       flattenPackages: false,
       flattenTypes: false,
       override: true,
@@ -297,13 +291,30 @@ describe('Package', () => {
     it('should get files types automatically without definations', () => {
       cd('bower');
 
-      let pkg = new Package('normalize-css', true, {
+      let pkg = new Package('normalize-css', '**/*', {
         registry: 'bower'
       });
 
       expect(pkg.getTypedFiles()).to.be.eql(fillTypes({
         css: [
           'normalize.css'
+        ]
+      }));
+    });
+
+    it('should get files types with main files', () => {
+      cd('bower');
+
+      let pkg = new Package('bootstrap', true, {
+        registry: 'bower'
+      });
+
+      expect(pkg.getTypedFiles()).to.be.eql(fillTypes({
+        less: [
+          'less/bootstrap.less'
+        ],
+        js: [
+          'dist/js/bootstrap.js'
         ]
       }));
     });
@@ -376,24 +387,6 @@ describe('Package', () => {
           'dist/js/bootstrap.min.js'
         ]
       });
-    });
-
-    it('should get files types with main files', () => {
-      cd('bower');
-
-      let pkg = new Package('bootstrap', true, {
-        registry: 'bower',
-        main: true
-      });
-
-      expect(pkg.getTypedFiles()).to.be.eql(fillTypes({
-        less: [
-          'less/bootstrap.less'
-        ],
-        js: [
-          'dist/js/bootstrap.js'
-        ]
-      }));
     });
   });
 
