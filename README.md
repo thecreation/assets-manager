@@ -8,7 +8,7 @@ $ npm install --save-dev assets-manager
 ```
 
 ## Work with gulp
-You can integrate with gulp easily:
+You can integrate it with gulp easily:
 ```js
 var AssetsManager = require('assets-manager');
 var manager = new AssetsManager('manifest.json');
@@ -26,7 +26,7 @@ gulp.task('clean:assets', function(done){
 ```
 
 ### See in action
-[![gulp](demo/gulp.gif)]
+[![gulp](https://raw.githubusercontent.com/amazingSurge/assets-manager/master/demo/gulp.gif)]
 
 ## Usage
 
