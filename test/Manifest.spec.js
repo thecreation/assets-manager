@@ -257,11 +257,9 @@ describe('Manifest', () => {
       });
 
       let jquery = manifest.getPackage('jquery');
-      expect(jquery.getPath()).to.be.equal(path.join('manifest', 'bower_components', 'jquery'));
       expect(jquery.isInstalled()).to.be.true();
 
       let bootstrap = manifest.getPackage('bootstrap');
-      expect(bootstrap.getPath()).to.be.equal(path.join('manifest', 'node_modules', 'bootstrap'));
       expect(bootstrap.isInstalled()).to.be.true();
     });
   });
@@ -742,36 +740,73 @@ describe('Manifest', () => {
     });
   });
 
-  it('should copy packages correctly', () => {
-    cd('manifest');
+  describe('copyPackages()', () => {
+    it('should copy packages correctly', () => {
+      cd('manifest');
 
-    let manifest = new Manifest({
-      packages: {
-        "bower:jquery": {
-          js: 'dist/jquery.js'
+      let manifest = new Manifest({
+        packages: {
+          "bower:jquery": {
+            js: 'dist/jquery.js'
+          },
+          "npm:bootstrap": [{
+            js: 'dist/js/bootstrap.js'
+          }]
         },
-        "npm:bootstrap": [{
-          js: 'dist/js/bootstrap.js'
-        }]
-      },
-      verbose: false
-    });
+        verbose: false
+      });
 
-    return manifest.copyPackages().then(() => {
-      let dir = path.resolve(FIXTURES, 'manifest', 'assets');
-      let files = finder.listFiles(dir);
-      expect('js/bootstrap.js').to.be.oneOf(files);
-      expect('js/jquery.js').to.be.oneOf(files);
-
-      return manifest.cleanPackages().then(() => {
-        let dir = path.resolve(FIXTURES, 'assets');
+      return manifest.copyPackages().then(() => {
+        let dir = path.resolve(FIXTURES, 'manifest', 'assets');
         let files = finder.listFiles(dir);
+        expect('js/bootstrap.js').to.be.oneOf(files);
+        expect('js/jquery.js').to.be.oneOf(files);
 
-        expect('js/bootstrap.js').to.not.be.oneOf(files);
-        expect('js/jquery.js').to.not.be.oneOf(files);
+        return manifest.cleanPackages().then(() => {
+          let dir = path.resolve(FIXTURES, 'assets');
+          let files = finder.listFiles(dir);
+
+          expect('js/bootstrap.js').to.not.be.oneOf(files);
+          expect('js/jquery.js').to.not.be.oneOf(files);
+        });
       });
     });
+
+    it('should work with specific cwd correctly', () => {
+      cd(FIXTURES);
+
+      let manifest = new Manifest({
+        packages: {
+          "bower:jquery": {
+            js: 'dist/jquery.js'
+          },
+          "npm:bootstrap": [{
+            js: 'dist/js/bootstrap.js'
+          }]
+        },
+        cwd: './manifest',
+        dest: 'assets',
+        verbose: false
+      });
+
+      return manifest.copyPackages().then(() => {
+        let dir = path.resolve(FIXTURES, 'manifest', 'assets');
+        let files = finder.listFiles(dir);
+        expect('js/bootstrap.js').to.be.oneOf(files);
+        expect('js/jquery.js').to.be.oneOf(files);
+
+        return manifest.cleanPackages().then(() => {
+          let dir = path.resolve(FIXTURES, 'assets');
+          let files = finder.listFiles(dir);
+
+          expect('js/bootstrap.js').to.not.be.oneOf(files);
+          expect('js/jquery.js').to.not.be.oneOf(files);
+        });
+      });
+    });
+
   });
+
 
   describe('getPackagesFiles()', () => {
     it('should get packages files for specify type', () => {
