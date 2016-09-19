@@ -143,6 +143,10 @@ Just defined the registries in the manifest.json. The **npm** and **bower** are 
 The relative path to the root of the project.
 Defaults to the manifest.json directory.
 
+### dest
+The destination path. It's relative path to cwd.
+Defaults to `assets`.
+
 ### flattenPackages
 Whether to remove all package path parts from generated dest paths.
 Defaults to true.
