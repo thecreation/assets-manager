@@ -227,53 +227,77 @@ describe('Manifest', () => {
     });
   });
 
-  it('should set cwd correctly', () => {
-    cd('manifest');
+  describe('cwd', () => {
+    it('should set cwd correctly', () => {
+      cd('manifest');
 
-    let manifest = new Manifest({
-      cwd: '.'
+      let manifest = new Manifest({
+        cwd: '.'
+      });
+      expect(manifest.getConfigure('cwd')).to.be.equal(path.resolve(FIXTURES, 'manifest'));
+
+      let manifest2 = new Manifest({
+        cwd: '../bower'
+      });
+      expect(manifest2.getConfigure('cwd')).to.be.equal(path.resolve(FIXTURES, 'bower'));
+
+      let manifest3 = new Manifest({});
+      expect(manifest3.getConfigure('cwd')).to.be.equal(path.resolve(FIXTURES, 'manifest'));
     });
-    expect(manifest.getConfigure('cwd')).to.be.equal(path.resolve(FIXTURES, 'manifest'));
 
-    let manifest2 = new Manifest({
-      cwd: '../bower'
+    it('should set cwd correctly when manifest file is not same with the registries folders', () => {
+      cd(FIXTURES);
+
+      let manifest = new Manifest({
+        cwd: './manifest',
+        packages: {
+          "bower:jquery": true,
+          "npm:bootstrap": true
+        }
+      });
+
+      let jquery = manifest.getPackage('jquery');
+      expect(jquery.getPath()).to.be.equal(path.join('manifest', 'bower_components', 'jquery'));
+      expect(jquery.isInstalled()).to.be.true();
+
+      let bootstrap = manifest.getPackage('bootstrap');
+      expect(bootstrap.getPath()).to.be.equal(path.join('manifest', 'node_modules', 'bootstrap'));
+      expect(bootstrap.isInstalled()).to.be.true();
     });
-    expect(manifest2.getConfigure('cwd')).to.be.equal(path.resolve(FIXTURES, 'bower'));
-
-    let manifest3 = new Manifest({});
-    expect(manifest3.getConfigure('cwd')).to.be.equal(path.resolve(FIXTURES, 'manifest'));
   });
 
-  it('should get packages info correctly', () => {
-    cd('manifest');
+  describe('getPackagesInfo()', () => {
+    it('should get packages info correctly', () => {
+      cd('manifest');
 
-    let manifest = new Manifest();
-    expect(manifest.getPackagesInfo(['name', 'version', 'license'])).to.be.eql({
-      bootstrap: {
-        name: 'bootstrap',
-        version: '3.3.7',
-        license: 'MIT'
-      },
-      jquery: {
-        name: 'jquery',
-        version: '3.1.0',
-        license: 'MIT'
-      }
-    });
+      let manifest = new Manifest();
+      expect(manifest.getPackagesInfo(['name', 'version', 'license'])).to.be.eql({
+        bootstrap: {
+          name: 'bootstrap',
+          version: '3.3.7',
+          license: 'MIT'
+        },
+        jquery: {
+          name: 'jquery',
+          version: '3.1.0',
+          license: 'MIT'
+        }
+      });
 
-    expect(manifest.getPackagesInfo(['name', 'version', 'license', 'undefined'], {fillNull: true})).to.be.eql({
-      bootstrap: {
-        name: 'bootstrap',
-        version: '3.3.7',
-        license: 'MIT',
-        undefined: null
-      },
-      jquery: {
-        name: 'jquery',
-        version: '3.1.0',
-        license: 'MIT',
-        undefined: null
-      }
+      expect(manifest.getPackagesInfo(['name', 'version', 'license', 'undefined'], {fillNull: true})).to.be.eql({
+        bootstrap: {
+          name: 'bootstrap',
+          version: '3.3.7',
+          license: 'MIT',
+          undefined: null
+        },
+        jquery: {
+          name: 'jquery',
+          version: '3.1.0',
+          license: 'MIT',
+          undefined: null
+        }
+      });
     });
   });
 
@@ -438,7 +462,8 @@ describe('Manifest', () => {
       });
 
       return manifest.copyPackage('undefined', {
-        ignoreError: false
+        ignoreError: false,
+        verbose: false
       }).then(() => {
         expect('called').to.not.exist();
       }).catch((error) => {
@@ -481,7 +506,8 @@ describe('Manifest', () => {
       });
 
       return manifest.copyPackage('uninstalled', {
-        ignoreError: false
+        ignoreError: false,
+        verbose: false
       }).then(() => {
         expect('called').to.not.exist();
       }).catch((error) => {
@@ -523,7 +549,9 @@ describe('Manifest', () => {
         }
       });
 
-      return manifest.copyPackage('uninstalled').then(() => {
+      return manifest.copyPackage('uninstalled', {
+        verbose: false
+      }).then(() => {
         expect('called').to.not.exist();
       }).catch((error) => {
         expect(error).to.exist();
@@ -615,7 +643,8 @@ describe('Manifest', () => {
       });
 
       return manifest.cleanPackage('undefined', {
-        ignoreError: false
+        ignoreError: false,
+        verbose: false
       }).then(() => {
         expect('called').to.not.exist();
       }).catch((error) => {
@@ -658,7 +687,8 @@ describe('Manifest', () => {
       });
 
       return manifest.cleanPackage('uninstalled', {
-        ignoreError: false
+        ignoreError: false,
+        verbose: false
       }).then(() => {
         expect('called').to.not.exist();
       }).catch((error) => {
@@ -700,7 +730,9 @@ describe('Manifest', () => {
         }
       });
 
-      return manifest.cleanPackage('uninstalled').then(() => {
+      return manifest.cleanPackage('uninstalled', {
+        verbose: false
+      }).then(() => {
         expect('called').to.not.exist();
       }).catch((error) => {
         expect(error).to.exist();

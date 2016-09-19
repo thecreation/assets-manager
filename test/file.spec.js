@@ -190,6 +190,7 @@ efgh5678`;
       cd(FIXTURES);
 
       expect(file.isDirectory('file')).to.be.true();
+      expect(file.isDirectory('file/directory')).to.be.true();
       expect(file.isDirectory(path.join('file', 'test.js'))).to.be.false();
       expect(file.isDirectory('non-exist')).to.be.false();
     });
