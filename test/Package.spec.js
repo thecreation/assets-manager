@@ -8,10 +8,14 @@ import Custom from '../lib/Registry/Custom';
 import cd from './helpers/cd';
 import fillTypes from './helpers/fillTypes';
 import configure from '../lib/configure';
+import path from 'path';
+
+const FIXTURES = path.join(__dirname, 'fixtures');
 
 describe('Package', () => {
   afterEach(() => {
     cd.reset();
+    configure.clear();
   });
 
   it('should use bower registry correctly', () => {
@@ -194,6 +198,40 @@ describe('Package', () => {
     });
 
     expect(pkg.getInfo('name')).to.be.equal('bootstrap');
+  });
+
+  describe('hasDirectory()', () => {
+    it('should return true if directory in the package', () => {
+      cd('manifest');
+
+      let pkg = new Package('bootstrap', true, {
+        registry: 'bower'
+      });
+
+      expect(pkg.hasDirectory('dist/css')).to.be.true();
+    });
+
+    it('should return false if directory in the package', () => {
+      cd('manifest');
+
+      let pkg = new Package('bootstrap', true, {
+        registry: 'bower'
+      });
+
+      expect(pkg.hasDirectory('dist/none')).to.be.false();
+    });
+
+    it('should return true if directory in the package with cwd set', () => {
+      cd(FIXTURES);
+
+      configure.set('cwd', path.resolve(FIXTURES, 'manifest'));
+
+      let pkg = new Package('bootstrap', true, {
+        registry: 'bower'
+      });
+
+      expect(pkg.hasDirectory('dist/css')).to.be.true();
+    });
   });
 
   describe('isInstalled()', () => {
