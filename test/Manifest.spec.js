@@ -15,6 +15,7 @@ import dirtyChai from 'dirty-chai';
 import del from 'del';
 import sinonChai from 'sinon-chai';
 import sinon from 'sinon';
+import fillTypes from './helpers/fillTypes';
 
 chai.use(chaiAsPromised);
 chai.use(dirtyChai);
@@ -150,80 +151,230 @@ describe('Manifest', () => {
     });
   });
 
-  it('should parese package config correctly', () => {
-    cd('bower');
+  describe('parsePackageConfig()', () => {
+    it('should parese package config correctly', () => {
+      cd('bower');
 
-    let manifest = new Manifest();
+      let manifest = new Manifest();
 
-    expect(manifest.parsePackageConfig(true)).to.be.eql({
-      defination: true,
-      options: {}
+      expect(manifest.parsePackageConfig(true)).to.be.eql({
+        defination: true,
+        options: {}
+      });
+
+      expect(manifest.parsePackageConfig("**/*")).to.be.eql({
+        defination: "**/*",
+        options: {}
+      });
+
+      expect(manifest.parsePackageConfig(["dist/**/*.js", "!dist/**/*.min.js"])).to.be.eql({
+        defination: ["dist/**/*.js", "!dist/**/*.min.js"],
+        options: {}
+      });
+
+      expect(manifest.parsePackageConfig(["**/*", {
+        "registry": "bower"
+      }])).to.be.eql({
+        defination: "**/*",
+        options: {
+          "registry": "bower"
+        }
+      });
+
+      expect(manifest.parsePackageConfig([["**/*", "!**/*.min.js"], {
+        "registry": "bower"
+      }])).to.be.eql({
+        defination: ["**/*", "!**/*.min.js"],
+        options: {
+          "registry": "bower"
+        }
+      });
+
+      expect(manifest.parsePackageConfig([
+        true,
+        {
+          registry: "bower"
+        }
+      ])).to.be.eql({
+        defination: true,
+        options: {
+          registry: "bower"
+        }
+      });
+
+      expect(manifest.parsePackageConfig([
+        {
+          js: "dist/js",
+          css: "dist/css",
+          less: "less",
+          fonts: "dist/fonts"
+        }
+      ])).to.be.eql({
+        defination: {
+          js: "dist/js",
+          css: "dist/css",
+          less: "less",
+          fonts: "dist/fonts"
+        },
+        options: {}
+      });
+
+      expect(manifest.parsePackageConfig([
+        {
+          js: "dist/js",
+          css: "dist/css",
+          less: "less",
+          fonts: "dist/fonts"
+        },
+        {
+          registry: "bower"
+        }
+      ])).to.be.eql({
+        defination: {
+          js: "dist/js",
+          css: "dist/css",
+          less: "less",
+          fonts: "dist/fonts"
+        },
+        options: {
+          registry: "bower"
+        }
+      });
+
+      expect(manifest.parsePackageConfig({
+        js: "dist/js",
+        css: "dist/css",
+        less: "less",
+        fonts: "dist/fonts"
+      })).to.be.eql({
+        defination: {
+          js: "dist/js",
+          css: "dist/css",
+          less: "less",
+          fonts: "dist/fonts"
+        },
+        options: {}
+      });
+    });
+    it('should get files types automatically without definations', () => {
+      cd('bower');
+
+      let manifest = new Manifest({
+        packages: {
+          'bower:normalize-css': '**/*'
+        }
+      });
+
+      let pkg = manifest.getPackage('normalize-css');
+
+      expect(pkg.getTypedFiles()).to.be.eql(fillTypes({
+        css: [
+          'normalize.css'
+        ]
+      }));
     });
 
-    expect(manifest.parsePackageConfig([
-      true,
-      {
-        registry: "bower"
-      }
-    ])).to.be.eql({
-      defination: true,
-      options: {
-        registry: "bower"
-      }
+    it('should get files types with main files', () => {
+      cd('bower');
+
+      let manifest = new Manifest({
+        packages: {
+          'bower:bootstrap': true
+        }
+      });
+
+      let pkg = manifest.getPackage('bootstrap');
+
+      expect(pkg.getTypedFiles()).to.be.eql(fillTypes({
+        less: [
+          'less/bootstrap.less'
+        ],
+        js: [
+          'dist/js/bootstrap.js'
+        ]
+      }));
     });
 
-    expect(manifest.parsePackageConfig([
-      {
-        js: "dist/js",
-        css: "dist/css",
-        less: "less",
-        fonts: "dist/fonts"
-      }
-    ])).to.be.eql({
-      defination: {
-        js: "dist/js",
-        css: "dist/css",
-        less: "less",
-        fonts: "dist/fonts"
-      },
-      options: {}
+    it('should get files types with files array definations', () => {
+      cd('bower');
+
+      let manifest = new Manifest({
+        packages: {
+          'bower:bootstrap': {
+              js: ['dist/js/bootstrap.js'],
+              css: ['dist/css/bootstrap.css', 'dist/css/bootstrap-theme.css']
+            }
+        }
+      });
+
+      let pkg = manifest.getPackage('bootstrap');
+
+      expect(pkg.getTypedFiles()).to.be.eql({
+        css: [
+          'dist/css/bootstrap.css',
+          'dist/css/bootstrap-theme.css'
+        ],
+        js: [
+          'dist/js/bootstrap.js'
+        ]
+      });
     });
 
-    expect(manifest.parsePackageConfig([
-      {
-        js: "dist/js",
-        css: "dist/css",
-        less: "less",
-        fonts: "dist/fonts"
-      },
-      {
-        registry: "bower"
-      }
-    ])).to.be.eql({
-      defination: {
-        js: "dist/js",
-        css: "dist/css",
-        less: "less",
-        fonts: "dist/fonts"
-      },
-      options: {
-        registry: "bower"
-      }
+    it('should get files types with definations', () => {
+      cd('bower');
+
+      let manifest = new Manifest({
+        packages: {
+          'bower:bootstrap': {
+            js: 'dist/js',
+            css: ['dist/css/*.css', '!dist/css/*.min.css']
+          }
+        }
+      });
+
+      let pkg = manifest.getPackage('bootstrap');
+
+      expect(pkg.getTypedFiles()).to.be.eql({
+        css: [
+          'dist/css/bootstrap-theme.css',
+          'dist/css/bootstrap.css'
+        ],
+        js: [
+          'dist/js/bootstrap.js',
+          'dist/js/bootstrap.min.js',
+          'dist/js/npm.js'
+        ]
+      });
     });
 
-    expect(manifest.parsePackageConfig({
-      js: "dist/js",
-      css: "dist/css",
-      less: "less",
-      fonts: "dist/fonts"
-    })).to.be.eql({
-      defination: {
-        js: "dist/js",
-        css: "dist/css",
-        less: "less",
-        fonts: "dist/fonts"
-      },
-      options: {}
+    it('should get files types with files object definations', () => {
+      cd('bower');
+
+      let manifest = new Manifest({
+        packages: {
+          'bower:bootstrap': {
+            js: {
+              'bootstrap.js': 'dist/js/bootstrap.min.js'
+            },
+            css: {
+              'main.css':'dist/css/bootstrap.css',
+              'theme.css':'dist/css/bootstrap-theme.css'
+            }
+          }
+        }
+      });
+
+      let pkg = manifest.getPackage('bootstrap');
+
+      expect(pkg.getTypedFiles()).to.be.eql({
+        css: [
+          'dist/css/bootstrap.css',
+          'dist/css/bootstrap-theme.css'
+        ],
+        js: [
+          'dist/js/bootstrap.min.js'
+        ]
+      });
     });
   });
 
