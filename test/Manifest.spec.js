@@ -173,20 +173,20 @@ describe('Manifest', () => {
       });
 
       expect(manifest.parsePackageConfig(["**/*", {
-        "registry": "bower"
+        registry: "bower"
       }])).to.be.eql({
         defination: "**/*",
         options: {
-          "registry": "bower"
+          registry: "bower"
         }
       });
 
       expect(manifest.parsePackageConfig([["**/*", "!**/*.min.js"], {
-        "registry": "bower"
+        registry: "bower"
       }])).to.be.eql({
         defination: ["**/*", "!**/*.min.js"],
         options: {
-          "registry": "bower"
+          registry: "bower"
         }
       });
 
