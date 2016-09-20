@@ -22,4 +22,10 @@ describe('rename()', () => {
       '*.min.js': ['/\.min\.js$/', '.js']
     })).to.be.equal('bootstrap.js');
   });
+
+  it('should work with path', () => {
+    expect(rename('js/bootstrap.min.js', {
+      'bootstrap.min.js': 'bootstrap.js'
+    })).to.be.equal('js/bootstrap.js');
+  });
 });

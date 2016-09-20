@@ -268,6 +268,8 @@ efgh5678`;
           'js/test.js',
           'js/test2.js'
         ]);
+
+
       });
     });
 
@@ -365,7 +367,7 @@ efgh5678`;
         expect(finder.listFiles(path.resolve(TEMP, 'clean'))).to.be.eql([
           'js/test.js'
         ]);
-        return file.cleanFiles([path.resolve(TEMP, 'clean', 'js' ,'test.js')]).then(()=>{
+        return file.cleanFiles([path.resolve(TEMP, 'clean', 'js', 'test.js')]).then(()=>{
           expect(finder.listFiles(path.resolve(TEMP, 'clean'))).to.be.eql([]);
         });
       });
@@ -430,6 +432,29 @@ efgh5678`;
       }).then(() => {
         expect(log.info).to.not.be.called();
       });
+    });
+  });
+
+  describe('matchGlob()', () => {
+    it('should return the matched glob with filepath from globs', () => {
+      expect(file.matchGlob('path/to/file.js', 'another/**/*.css')).to.be.equal(false);
+      expect(file.matchGlob('path/to/file.js', 'path/**/*')).to.be.equal('path/**/*');
+      expect(file.matchGlob('path/to/file.js', ['path/**/*'])).to.be.equal('path/**/*');
+      expect(file.matchGlob('path/to/file.js', ['path/**/*', 'path/**/*.js'])).to.be.equal('path/**/*');
+      expect(file.matchGlob('path/to/file.js', ['path/**/*', 'path/**/*.css'])).to.be.equal('path/**/*');
+      expect(file.matchGlob('path/to/file.js', ['path/**/*.css', 'path/**/*'])).to.be.equal('path/**/*');
+      expect(file.matchGlob('path/to/file.js', ['path/**/*.css', 'path/**/*.scss'])).to.be.equal(false);
+    });
+  });
+
+  describe('getRelativeFromGlobs()', () => {
+    it('should return the relative filepath with filepath from globs', () => {
+      expect(file.getRelativeFromGlobs('path/to/file.js', 'another/**/*.css')).to.be.equal('file.js');
+      expect(file.getRelativeFromGlobs('path/to/file.js', '**/*')).to.be.equal('path/to/file.js');
+      expect(file.getRelativeFromGlobs('path/to/file.js', 'path/**/*')).to.be.equal('to/file.js');
+      expect(file.getRelativeFromGlobs('path/to/file.js', 'path/to/**/*')).to.be.equal('file.js');
+
+      expect(file.getRelativeFromGlobs('path/to/file.js', ['path/**/*'])).to.be.equal('to/file.js');
     });
   });
 });

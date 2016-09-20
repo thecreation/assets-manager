@@ -160,6 +160,9 @@ Defaults to false.
 Whether to remove all path parts from generated dest paths in types.
 Defaults to false.
 
+It will add index suffix to the duplicate files. 
+E.g. If there are three filename.js in the package, it will rename the second file to filename-1.js and the third one to filename-3.js.
+
 ### verbose
 Whether to output copy and clean files infos to console.
 Defaults to true.

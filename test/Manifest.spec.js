@@ -923,6 +923,36 @@ describe('Manifest', () => {
       });
     });
 
+    it('should copy packages with duplicated files correctly', () => {
+      cd('manifest');
+
+      let manifest = new Manifest({
+        flatten: true,
+        packages: {
+          "npm:bootstrap": "less"
+        },
+        dests: {
+          less: "less"
+        },
+        verbose: false
+      });
+
+      return manifest.copyPackages().then(() => {
+        let dir = path.resolve(FIXTURES, 'manifest', 'assets');
+        let files = finder.listFiles(dir);
+        expect('less/grid.less').to.be.oneOf(files);
+        expect('less/grid-1.less').to.be.oneOf(files);
+
+        return manifest.cleanPackages().then(() => {
+          let dir = path.resolve(FIXTURES, 'assets');
+          let files = finder.listFiles(dir);
+
+          expect('less/grid.less').to.not.be.oneOf(files);
+          expect('less/grid-1.less').to.not.be.oneOf(files);
+        });
+      });
+    });
+
     it('should work with specific cwd correctly', () => {
       cd(FIXTURES);
 
@@ -1045,6 +1075,7 @@ describe('Manifest', () => {
         cd('manifest');
 
         let manifest = new Manifest({
+          flatten: false,
           flattenTypes: false,
           flattenPackages: true,
           packages: {
@@ -1079,6 +1110,7 @@ describe('Manifest', () => {
         cd('manifest');
 
         let manifest = new Manifest({
+          flatten: false,
           flattenTypes: false,
           flattenPackages: true,
           packages: {
@@ -1117,6 +1149,7 @@ describe('Manifest', () => {
         cd('manifest');
 
         let manifest = new Manifest({
+          flatten: false,
           flattenTypes: false,
           flattenPackages: true,
           packages: {
@@ -1154,6 +1187,7 @@ describe('Manifest', () => {
         cd('manifest');
 
         let manifest = new Manifest({
+          flatten: false,
           flattenTypes: true,
           flattenPackages: false,
           packages: {
@@ -1193,6 +1227,7 @@ describe('Manifest', () => {
         cd('manifest');
 
         let manifest = new Manifest({
+          flatten: false,
           flattenTypes: false,
           flattenPackages: false,
           packages: {
@@ -1235,6 +1270,7 @@ describe('Manifest', () => {
         cd('manifest');
 
         let manifest = new Manifest({
+          flatten: false,
           flattenTypes: false,
           flattenPackages: true,
           packages: {
@@ -1271,6 +1307,7 @@ describe('Manifest', () => {
         cd('manifest');
 
         let manifest = new Manifest({
+          flatten: false,
           flattenTypes: false,
           flattenPackages: false,
           packages: {
@@ -1302,6 +1339,72 @@ describe('Manifest', () => {
           });
         });
       });
+    });
+
+    describe('flatten', () => {
+      it('should flatten paths when set to true', () => {
+        cd('manifest');
+
+        let manifest = new Manifest({
+          flatten: true,
+          flattenTypes: false,
+          flattenPackages: true,
+          packages: {
+            "bower:bootstrap": "less"
+          },
+          dest: 'assets',
+          dests: {
+            less: "less",
+          },
+          verbose: false
+        });
+
+        return manifest.copyPackages().then(() => {
+          let dir = path.resolve(FIXTURES, 'manifest', 'assets');
+          let files = finder.listFiles(dir);
+
+          expect('less/grid.less').to.be.oneOf(files);
+
+          return manifest.cleanPackages().then(() => {
+            let dir = path.resolve(FIXTURES, 'assets');
+            let files = finder.listFiles(dir);
+
+            expect('less/grid.less').to.not.be.oneOf(files);
+          });
+        });
+      });
+
+      it('should not flatten paths when set to false', () => {
+        cd('manifest');
+
+        let manifest = new Manifest({
+          flatten: false,
+          flattenTypes: false,
+          flattenPackages: true,
+          packages: {
+            "bower:bootstrap": "less"
+          },
+          dest: 'assets',
+          dests: {
+            less: "less",
+          },
+          verbose: false
+        });
+
+        return manifest.copyPackages().then(() => {
+          let dir = path.resolve(FIXTURES, 'manifest', 'assets');
+          let files = finder.listFiles(dir);
+          expect('less/mixins/grid.less').to.be.oneOf(files);
+
+          return manifest.cleanPackages().then(() => {
+            let dir = path.resolve(FIXTURES, 'assets');
+            let files = finder.listFiles(dir);
+
+            expect('less/mixins/grid.less').to.not.be.oneOf(files);
+          });
+        });
+      });
+
     });
   });
 });

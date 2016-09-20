@@ -407,6 +407,23 @@ describe('Package', () => {
 
       expect(pkg.getGlobByType('js')).to.be.eql(['dist/**/*', '!dist/**/*.min.js']);
     });
+
+    it('should get glob by type when defination is file mapping object', () => {
+      cd('manifest');
+
+      let pkg = new Package('bootstrap', {
+        js: {
+          'bootstrap.js': 'dist/js/bootstrap.min.js',
+        },
+        css: {
+          'bootstrap.css': 'dist/css/bootstrap.min.css',
+        }
+      }, {
+        registry: 'bower'
+      });
+
+      expect(pkg.getGlobByType('js')).to.be.equal('.');
+    });
   });
 
   describe('getTypedFiles()', () => {
