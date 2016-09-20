@@ -376,6 +376,8 @@ Assets manager provides 4 separate hooks that can be used to trigger other autom
 ## Todos
 -   Hooks
 -   Package name duplicate in different registries
+-   Clean empty package folder when cleanPackages
+-   npm versions
 -   File collections
 -   Dependencies
 
