@@ -102,6 +102,7 @@ Just defined the registries in the manifest.json. The **npm** and **bower** are 
   "verbose": true,
   "override": true,
   "ignoreError": true,
+  "flatten": false,
   "flattenPackages": true,
   "flattenTypes": false,
   "dest": "assets",
@@ -153,6 +154,10 @@ Defaults to true.
 
 ### flattenTypes
 Whether to remove all type path parts from generated dest paths.
+Defaults to false.
+
+### flatten
+Whether to remove all path parts from generated dest paths in types.
 Defaults to false.
 
 ### verbose
@@ -323,6 +328,7 @@ css: {
 {
   flattenPackages: true,
   flattenTypes: false,
+  flatten: false,
   verbose: true,
   override: true,
   registry: 'npm',
@@ -331,7 +337,7 @@ css: {
 }
 ```
 
-#### flattenPackages, flattenTypes, verbose, override, registry
+#### flattenPackages, flattenTypes, flatten, verbose, override, registry
 These options will override the global options.
 
 #### replaces

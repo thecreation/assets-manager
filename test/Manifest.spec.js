@@ -1035,6 +1035,7 @@ describe('Manifest', () => {
       expect(manifest.getConfigure('defaultRegistry')).to.be.equal('npm');
       expect(manifest.getConfigure('flattenPackages')).to.be.equal(true);
       expect(manifest.getConfigure('flattenTypes')).to.be.equal(false);
+      expect(manifest.getConfigure('flatten')).to.be.equal(false);
       expect(manifest.getConfigure('verbose')).to.be.equal(true);
       expect(manifest.getConfigure('override')).to.be.equal(true);
     });

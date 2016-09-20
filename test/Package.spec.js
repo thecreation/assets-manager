@@ -29,6 +29,7 @@ describe('Package', () => {
       registry: 'bower',
       flattenPackages: false,
       flattenTypes: false,
+      flatten: false,
       override: true,
       renames: {},
       replaces: {}
@@ -40,6 +41,7 @@ describe('Package', () => {
       registry: 'bower',
       flattenPackages: false,
       flattenTypes: false,
+      flatten: false,
       override: true,
       renames: {},
       replaces: {}
@@ -89,6 +91,7 @@ describe('Package', () => {
       registry: 'npm',
       flattenPackages: false,
       flattenTypes: false,
+      flatten: false,
       override: true,
       renames: {},
       replaces: {}
@@ -100,6 +103,7 @@ describe('Package', () => {
       registry: 'npm',
       flattenPackages: false,
       flattenTypes: false,
+      flatten: false,
       override: true,
       renames: {},
       replaces: {}
@@ -151,6 +155,7 @@ describe('Package', () => {
       registry: 'libs',
       flattenPackages: false,
       flattenTypes: false,
+      flatten: false,
       override: true,
       renames: {},
       replaces: {}
@@ -162,6 +167,7 @@ describe('Package', () => {
       registry: 'libs',
       flattenPackages: false,
       flattenTypes: false,
+      flatten: false,
       override: true,
       renames: {},
       replaces: {}
@@ -322,6 +328,84 @@ describe('Package', () => {
         'LICENSE.md',
         'normalize.css'
       ]);
+    });
+  });
+
+  describe('getGlobByType()', () => {
+    it('should get glob by type when defination is true', () => {
+      cd('manifest');
+
+      let pkg = new Package('bootstrap', true, {
+        registry: 'bower'
+      });
+
+      expect(pkg.getGlobByType('js')).to.be.equal('.');
+    });
+
+    it('should get glob by type when defination is string', () => {
+      cd('manifest');
+
+      let pkg = new Package('bootstrap', 'dist', {
+        registry: 'bower'
+      });
+
+      expect(pkg.getGlobByType('js')).to.be.equal('dist/**/*');
+    });
+
+    it('should get glob by type when defination is glob', () => {
+      cd('manifest');
+
+      let pkg = new Package('bootstrap', 'dist/*', {
+        registry: 'bower'
+      });
+
+      expect(pkg.getGlobByType('js')).to.be.equal('dist/*');
+    });
+
+    it('should get glob by type when defination is glob array', () => {
+      cd('manifest');
+
+      let pkg = new Package('bootstrap', ['dist/**/*', '!dist/**/*.min.js'], {
+        registry: 'bower'
+      });
+
+      expect(pkg.getGlobByType('js')).to.be.eql(['dist/**/*', '!dist/**/*.min.js']);
+    });
+
+    it('should get glob by type when defination is object', () => {
+      cd('manifest');
+
+      let pkg = new Package('bootstrap', {
+        js: 'dist'
+      }, {
+        registry: 'bower'
+      });
+
+      expect(pkg.getGlobByType('js')).to.be.equal('dist/**/*');
+    });
+
+    it('should get glob by type when type defination is glob in object', () => {
+      cd('manifest');
+
+      let pkg = new Package('bootstrap', {
+        js: 'dist/*'
+      }, {
+        registry: 'bower'
+      });
+
+      expect(pkg.getGlobByType('js')).to.be.equal('dist/*');
+    });
+
+    it('should get glob by type when type defination is glob in object', () => {
+      cd('manifest');
+
+      let pkg = new Package('bootstrap', {
+        js: ['dist/**/*', '!dist/**/*.min.js']
+      }, {
+        registry: 'bower'
+      });
+
+      expect(pkg.getGlobByType('js')).to.be.eql(['dist/**/*', '!dist/**/*.min.js']);
     });
   });
 
