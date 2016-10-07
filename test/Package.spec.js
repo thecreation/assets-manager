@@ -27,6 +27,8 @@ describe('Package', () => {
       fonts: 'dist/fonts'
     }, {
       registry: 'bower',
+      dest: 'assets',
+      path: '${dest}/${type}/${package}/${file}',
       flattenPackages: false,
       flattenTypes: false,
       flatten: false,
@@ -39,6 +41,8 @@ describe('Package', () => {
     expect(pkg.registry).to.be.an.instanceof(Bower);
     expect(pkg.options).to.be.eql({
       registry: 'bower',
+      dest: 'assets',
+      path: '${dest}/${type}/${package}/${file}',
       flattenPackages: false,
       flattenTypes: false,
       flatten: false,
@@ -89,6 +93,8 @@ describe('Package', () => {
       fonts: 'dist/fonts'
     }, {
       registry: 'npm',
+      dest: 'assets',
+      path: '${dest}/${type}/${package}/${file}',
       flattenPackages: false,
       flattenTypes: false,
       flatten: false,
@@ -101,6 +107,8 @@ describe('Package', () => {
     expect(pkg.registry).to.be.an.instanceof(Npm);
     expect(pkg.options).to.be.eql({
       registry: 'npm',
+      dest: 'assets',
+      path: '${dest}/${type}/${package}/${file}',
       flattenPackages: false,
       flattenTypes: false,
       flatten: false,
@@ -153,6 +161,8 @@ describe('Package', () => {
       fonts: 'fonts'
     }, {
       registry: 'libs',
+      dest: 'assets',
+      path: '${dest}/${type}/${package}/${file}',
       flattenPackages: false,
       flattenTypes: false,
       flatten: false,
@@ -165,6 +175,8 @@ describe('Package', () => {
     expect(pkg.registry).to.be.an.instanceof(Custom);
     expect(pkg.options).to.be.eql({
       registry: 'libs',
+      dest: 'assets',
+      path: '${dest}/${type}/${package}/${file}',
       flattenPackages: false,
       flattenTypes: false,
       flatten: false,

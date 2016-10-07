@@ -106,6 +106,7 @@ Just defined the registries in the manifest.json. The **npm** and **bower** are 
   "flattenPackages": true,
   "flattenTypes": false,
   "dest": "assets",
+  "path": "${dest}/${type}/${package}/${file}",
   "dests": {
     "images": "images",
     "fonts": "fonts",
@@ -147,6 +148,10 @@ Defaults to the manifest.json directory.
 ### dest
 The destination path. It's relative path to cwd.
 Defaults to `assets`.
+
+### path
+The destination file path template. It's used to generate the destination file path.
+Defaults to `${dest}/${type}/${package}/${file}`
 
 ### flattenPackages
 Whether to remove all package path parts from generated dest paths.

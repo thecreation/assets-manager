@@ -532,6 +532,7 @@ describe('Manifest', () => {
             js: 'dist/js/bootstrap.js'
           }]
         },
+        dist: 'assets',
         verbose: false
       });
 
@@ -914,7 +915,7 @@ describe('Manifest', () => {
         expect('js/jquery.js').to.be.oneOf(files);
 
         return manifest.cleanPackages().then(() => {
-          let dir = path.resolve(FIXTURES, 'assets');
+          let dir = path.resolve(FIXTURES, 'manifest', 'assets');
           let files = finder.listFiles(dir);
 
           expect('js/bootstrap.js').to.not.be.oneOf(files);
@@ -944,7 +945,7 @@ describe('Manifest', () => {
         expect('less/grid-1.less').to.be.oneOf(files);
 
         return manifest.cleanPackages().then(() => {
-          let dir = path.resolve(FIXTURES, 'assets');
+          let dir = path.resolve(FIXTURES, 'manifest', 'assets');
           let files = finder.listFiles(dir);
 
           expect('less/grid.less').to.not.be.oneOf(files);
@@ -977,7 +978,7 @@ describe('Manifest', () => {
         expect('js/jquery.js').to.be.oneOf(files);
 
         return manifest.cleanPackages().then(() => {
-          let dir = path.resolve(FIXTURES, 'assets');
+          let dir = path.resolve(FIXTURES, 'manifest', 'assets');
           let files = finder.listFiles(dir);
 
           expect('js/bootstrap.js').to.not.be.oneOf(files);
@@ -1098,7 +1099,7 @@ describe('Manifest', () => {
           expect('js/bootstrap.js').to.be.oneOf(files);
 
           return manifest.cleanPackages().then(() => {
-            let dir = path.resolve(FIXTURES, 'assets');
+            let dir = path.resolve(FIXTURES, 'manifest', 'assets');
             let files = finder.listFiles(dir);
 
             expect('js/bootstrap.js').to.not.be.oneOf(files);
@@ -1134,7 +1135,7 @@ describe('Manifest', () => {
           expect('css/bootstrap.css').to.be.oneOf(files);
 
           return manifest.cleanPackages().then(() => {
-            let dir = path.resolve(FIXTURES, 'assets');
+            let dir = path.resolve(FIXTURES, 'manifest', 'assets');
             let files = finder.listFiles(dir);
 
             expect('js/bootstrap.js').to.not.be.oneOf(files);
@@ -1202,6 +1203,7 @@ describe('Manifest', () => {
             }]
           },
           dest: 'assets',
+          path: '${dest}/${type}/${package}/${file}',
           verbose: false
         });
 
@@ -1213,7 +1215,7 @@ describe('Manifest', () => {
           expect('jquery.js').to.be.oneOf(files);
 
           return manifest.cleanPackages().then(() => {
-            let dir = path.resolve(FIXTURES, 'assets');
+            let dir = path.resolve(FIXTURES, 'manifest', 'assets');
             let files = finder.listFiles(dir);
 
             expect('bootstrap/bootstrap.js').to.not.be.oneOf(files);
@@ -1242,6 +1244,7 @@ describe('Manifest', () => {
             }]
           },
           dest: 'assets',
+          path: '${dest}/${type}/${package}/${file}',
           verbose: false
         });
 
@@ -1254,7 +1257,7 @@ describe('Manifest', () => {
           expect('js/jquery.js').to.be.oneOf(files);
 
           return manifest.cleanPackages().then(() => {
-            let dir = path.resolve(FIXTURES, 'assets');
+            let dir = path.resolve(FIXTURES, 'manifest', 'assets');
             let files = finder.listFiles(dir);
 
             expect('js/bootstrap/bootstrap.js').to.not.be.oneOf(files);
@@ -1284,6 +1287,7 @@ describe('Manifest', () => {
             }]
           },
           dest: 'assets',
+          path: '${dest}/${type}/${package}/${file}',
           verbose: false
         });
 
@@ -1294,7 +1298,7 @@ describe('Manifest', () => {
           expect('js/jquery.js').to.be.oneOf(files);
 
           return manifest.cleanPackages().then(() => {
-            let dir = path.resolve(FIXTURES, 'assets');
+            let dir = path.resolve(FIXTURES, 'manifest', 'assets');
             let files = finder.listFiles(dir);
 
             expect('bootstrap.js').to.not.be.oneOf(files);
@@ -1321,6 +1325,7 @@ describe('Manifest', () => {
             }]
           },
           dest: 'assets',
+          path: '${dest}/${type}/${package}/${file}',
           verbose: false
         });
 
@@ -1331,7 +1336,7 @@ describe('Manifest', () => {
           expect('js/jquery/jquery.js').to.be.oneOf(files);
 
           return manifest.cleanPackages().then(() => {
-            let dir = path.resolve(FIXTURES, 'assets');
+            let dir = path.resolve(FIXTURES, 'manifest', 'assets');
             let files = finder.listFiles(dir);
 
             expect('bootstrap/bootstrap.js').to.not.be.oneOf(files);
@@ -1356,6 +1361,7 @@ describe('Manifest', () => {
           dests: {
             less: "less",
           },
+          path: '${dest}/${type}/${package}/${file}',
           verbose: false
         });
 
@@ -1366,7 +1372,7 @@ describe('Manifest', () => {
           expect('less/grid.less').to.be.oneOf(files);
 
           return manifest.cleanPackages().then(() => {
-            let dir = path.resolve(FIXTURES, 'assets');
+            let dir = path.resolve(FIXTURES, 'manifest', 'assets');
             let files = finder.listFiles(dir);
 
             expect('less/grid.less').to.not.be.oneOf(files);
@@ -1388,6 +1394,7 @@ describe('Manifest', () => {
           dests: {
             less: "less",
           },
+          path: '${dest}/${type}/${package}/${file}',
           verbose: false
         });
 
@@ -1397,14 +1404,418 @@ describe('Manifest', () => {
           expect('less/mixins/grid.less').to.be.oneOf(files);
 
           return manifest.cleanPackages().then(() => {
-            let dir = path.resolve(FIXTURES, 'assets');
+            let dir = path.resolve(FIXTURES, 'manifest', 'assets');
             let files = finder.listFiles(dir);
 
             expect('less/mixins/grid.less').to.not.be.oneOf(files);
           });
         });
       });
+    });
 
+    describe('dest', () => {
+      it('should work with dest options', () => {
+        cd('manifest');
+
+        let manifest = new Manifest({
+          flatten: false,
+          flattenTypes: false,
+          flattenPackages: true,
+          packages: {
+            "npm:bootstrap": {
+              js: 'dist/js',
+              css: 'dist/css'
+            }
+          },
+          path: '${dest}/${type}/${package}/${file}',
+          dest: 'assets',
+          verbose: false
+        });
+
+        return manifest.copyPackages().then(() => {
+          let dir = path.resolve(FIXTURES, 'manifest', 'assets');
+          let files = finder.listFiles(dir);
+
+          expect('css/bootstrap.css').to.be.oneOf(files);
+
+          return manifest.cleanPackages().then(() => {
+            let dir = path.resolve(FIXTURES, 'manifest', 'assets');
+            let files = finder.listFiles(dir);
+
+            expect('css/bootstrap.css').to.not.be.oneOf(files);
+          });
+        });
+      });
+
+      it('should work with dests', () => {
+        cd('manifest');
+
+        let manifest = new Manifest({
+          flatten: false,
+          flattenTypes: false,
+          flattenPackages: true,
+          packages: {
+            "npm:bootstrap": {
+              js: 'dist/js',
+              css: 'dist/css'
+            }
+          },
+          path: '${dest}/${type}/${package}/${file}',
+          dest: 'assets',
+          dests: {
+            css: 'another',
+          },
+          verbose: false
+        });
+
+        return manifest.copyPackages().then(() => {
+          let dir = path.resolve(FIXTURES, 'manifest', 'assets');
+          let files = finder.listFiles(dir);
+
+          expect('another/bootstrap.css').to.be.oneOf(files);
+
+          return manifest.cleanPackages().then(() => {
+            let dir = path.resolve(FIXTURES, 'manifest', 'assets');
+            let files = finder.listFiles(dir);
+
+            expect('another/bootstrap.css').to.not.be.oneOf(files);
+          });
+        });
+      });
+
+
+      it('should work with dest:{type} option', () => {
+        cd('manifest');
+
+        let manifest = new Manifest({
+          flatten: false,
+          flattenTypes: false,
+          flattenPackages: true,
+          packages: {
+            "npm:bootstrap": {
+              js: 'dist/js',
+              css: 'dist/css'
+            }
+          },
+          path: '${dest}/${type}/${package}/${file}',
+          dest: 'assets',
+          'dest:css': 'another',
+          verbose: false
+        });
+
+        return manifest.copyPackages().then(() => {
+          let dir = path.resolve(FIXTURES, 'manifest', 'assets');
+          let files = finder.listFiles(dir);
+
+          expect('another/bootstrap.css').to.be.oneOf(files);
+
+          return manifest.cleanPackages().then(() => {
+            let dir = path.resolve(FIXTURES, 'manifest', 'assets');
+            let files = finder.listFiles(dir);
+
+            expect('another/bootstrap.css').to.not.be.oneOf(files);
+          });
+        });
+      });
+
+      it('should work with package options', () => {
+        cd('manifest');
+
+        let manifest = new Manifest({
+          flatten: false,
+          flattenTypes: false,
+          flattenPackages: true,
+          packages: {
+            "npm:bootstrap": [{
+              js: 'dist/js',
+              css: 'dist/css'
+            }, {
+              'dest:css': 'another',
+              dest: 'assets/hello',
+            }]
+          },
+          path: '${dest}/${type}/${package}/${file}',
+          dest: 'assets',
+          verbose: false
+        });
+
+        return manifest.copyPackages().then(() => {
+          let dir = path.resolve(FIXTURES, 'manifest', 'assets');
+          let files = finder.listFiles(dir);
+
+          expect('hello/another/bootstrap.css').to.be.oneOf(files);
+
+          return manifest.cleanPackages().then(() => {
+            let dir = path.resolve(FIXTURES, 'manifest', 'assets');
+            let files = finder.listFiles(dir);
+
+            expect('hello/another/bootstrap.css').to.not.be.oneOf(files);
+          });
+        });
+      });
+
+    });
+
+    describe('path', () => {
+      it('should work with default path define', () => {
+        cd('manifest');
+        let manifest = new Manifest({
+          flatten: false,
+          flattenTypes: false,
+          flattenPackages: false,
+          packages: {
+            "npm:bootstrap": {
+              js: 'dist/js',
+              css: 'dist/css'
+            }
+          },
+          dest: 'assets',
+          dests: {
+            css: 'another',
+          },
+          path: '${dest}/${type}/${package}/${file}',
+          verbose: false
+        });
+
+        return manifest.copyPackages().then(() => {
+          let dir = path.resolve(FIXTURES, 'manifest', 'assets');
+          let files = finder.listFiles(dir);
+
+          expect('another/bootstrap/bootstrap.css').to.be.oneOf(files);
+          expect('js/bootstrap/bootstrap.js').to.be.oneOf(files);
+
+          return manifest.cleanPackages().then(() => {
+            let dir = path.resolve(FIXTURES, 'manifest', 'assets');
+            let files = finder.listFiles(dir);
+
+            expect('another/bootstrap/bootstrap.css').to.not.be.oneOf(files);
+            expect('js/bootstrap/bootstrap.js').to.not.be.oneOf(files);
+          });
+        });
+      });
+
+      it('should work with another path define', () => {
+        cd('manifest');
+        let manifest = new Manifest({
+          flatten: false,
+          flattenTypes: false,
+          flattenPackages: false,
+          packages: {
+            "npm:bootstrap": {
+              js: 'dist/js',
+              css: 'dist/css'
+            }
+          },
+
+          dest: 'assets',
+          dests: {
+            css: 'another',
+          },
+          path: '${dest}/${package}/${type}/${file}',
+          verbose: false
+        });
+
+        return manifest.copyPackages().then(() => {
+          let dir = path.resolve(FIXTURES, 'manifest', 'assets');
+          let files = finder.listFiles(dir);
+
+          expect('bootstrap/another/bootstrap.css').to.be.oneOf(files);
+          expect('bootstrap/js/bootstrap.js').to.be.oneOf(files);
+
+          return manifest.cleanPackages().then(() => {
+            let dir = path.resolve(FIXTURES, 'manifest', 'assets');
+            let files = finder.listFiles(dir);
+
+            expect('bootstrap/another/bootstrap.css').to.not.be.oneOf(files);
+            expect('bootstrap/js/bootstrap.js').to.not.be.oneOf(files);
+          });
+        });
+      });
+
+      it('should work with no package var', () => {
+        cd('manifest');
+        let manifest = new Manifest({
+          flatten: false,
+          flattenTypes: false,
+          flattenPackages: false,
+          packages: {
+            "npm:bootstrap": {
+              js: 'dist/js',
+              css: 'dist/css'
+            }
+          },
+
+          dest: 'assets',
+          dests: {
+            css: 'another',
+          },
+          path: '${dest}/${type}/${file}',
+          verbose: false
+        });
+
+        return manifest.copyPackages().then(() => {
+          let dir = path.resolve(FIXTURES, 'manifest', 'assets');
+          let files = finder.listFiles(dir);
+
+          expect('another/bootstrap.css').to.be.oneOf(files);
+          expect('js/bootstrap.js').to.be.oneOf(files);
+
+          return manifest.cleanPackages().then(() => {
+            let dir = path.resolve(FIXTURES, 'manifest', 'assets');
+            let files = finder.listFiles(dir);
+
+            expect('another/bootstrap.css').to.not.be.oneOf(files);
+            expect('js/bootstrap.js').to.not.be.oneOf(files);
+          });
+        });
+      });
+
+      it('should work with no type var', () => {
+        cd('manifest');
+        let manifest = new Manifest({
+          flatten: false,
+          flattenTypes: false,
+          flattenPackages: false,
+          packages: {
+            "npm:bootstrap": {
+              js: 'dist/js',
+              css: 'dist/css'
+            }
+          },
+          dest: 'assets',
+          dests: {
+            css: 'another',
+          },
+          path: '${dest}/${package}/${file}',
+          verbose: false
+        });
+
+        return manifest.copyPackages().then(() => {
+          let dir = path.resolve(FIXTURES, 'manifest', 'assets');
+          let files = finder.listFiles(dir);
+
+          expect('bootstrap/bootstrap.css').to.be.oneOf(files);
+          expect('bootstrap/bootstrap.js').to.be.oneOf(files);
+
+          return manifest.cleanPackages().then(() => {
+            let dir = path.resolve(FIXTURES, 'manifest', 'assets');
+            let files = finder.listFiles(dir);
+
+            expect('bootstrap/bootstrap.css').to.not.be.oneOf(files);
+            expect('bootstrap/bootstrap.js').to.not.be.oneOf(files);
+          });
+        });
+      });
+
+      it('should work with paths override for type', () => {
+        cd('manifest');
+        let manifest = new Manifest({
+          flatten: false,
+          flattenTypes: false,
+          flattenPackages: false,
+          packages: {
+            "npm:bootstrap": {
+              js: 'dist/js',
+              css: 'dist/css'
+            }
+          },
+          dest: 'assets',
+          path: '${dest}/${package}/${file}',
+          paths: {
+            css: '${dest}/src/${package}/${file}'
+          },
+          verbose: false
+        });
+
+        return manifest.copyPackages().then(() => {
+          let dir = path.resolve(FIXTURES, 'manifest', 'assets');
+          let files = finder.listFiles(dir);
+
+          expect('src/bootstrap/bootstrap.css').to.be.oneOf(files);
+          expect('bootstrap/bootstrap.js').to.be.oneOf(files);
+
+          return manifest.cleanPackages().then(() => {
+            let dir = path.resolve(FIXTURES, 'manifest', 'assets');
+            let files = finder.listFiles(dir);
+
+            expect('src/bootstrap/bootstrap.css').to.not.be.oneOf(files);
+            expect('bootstrap/bootstrap.js').to.not.be.oneOf(files);
+          });
+        });
+      });
+
+      it('should work with path:{type} option', () => {
+        cd('manifest');
+        let manifest = new Manifest({
+          flatten: false,
+          flattenTypes: false,
+          flattenPackages: false,
+          packages: {
+            "npm:bootstrap": {
+              js: 'dist/js',
+              css: 'dist/css'
+            }
+          },
+          dest: 'assets',
+          path: '${dest}/${package}/${file}',
+          'path:css': '${dest}/src/${package}/${file}',
+          verbose: false
+        });
+
+        return manifest.copyPackages().then(() => {
+          let dir = path.resolve(FIXTURES, 'manifest', 'assets');
+          let files = finder.listFiles(dir);
+
+          expect('src/bootstrap/bootstrap.css').to.be.oneOf(files);
+          expect('bootstrap/bootstrap.js').to.be.oneOf(files);
+
+          return manifest.cleanPackages().then(() => {
+            let dir = path.resolve(FIXTURES, 'manifest', 'assets');
+            let files = finder.listFiles(dir);
+
+            expect('src/bootstrap/bootstrap.css').to.not.be.oneOf(files);
+            expect('bootstrap/bootstrap.js').to.not.be.oneOf(files);
+          });
+        });
+      });
+
+      it('should work with package option', () => {
+        cd('manifest');
+        let manifest = new Manifest({
+          flatten: false,
+          flattenTypes: false,
+          flattenPackages: false,
+          packages: {
+            "npm:bootstrap": [{
+              js: 'dist/js',
+              css: 'dist/css'
+            }, {
+              path: '${dest}/${package}/${file}',
+              paths: {
+                css: '${dest}/src/${package}/${file}'
+              }
+            }]
+          },
+          dest: 'assets',
+          verbose: false
+        });
+
+        return manifest.copyPackages().then(() => {
+          let dir = path.resolve(FIXTURES, 'manifest', 'assets');
+          let files = finder.listFiles(dir);
+
+          expect('src/bootstrap/bootstrap.css').to.be.oneOf(files);
+          expect('bootstrap/bootstrap.js').to.be.oneOf(files);
+
+          return manifest.cleanPackages().then(() => {
+            let dir = path.resolve(FIXTURES, 'manifest', 'assets');
+            let files = finder.listFiles(dir);
+
+            expect('src/bootstrap/bootstrap.css').to.not.be.oneOf(files);
+            expect('bootstrap/bootstrap.js').to.not.be.oneOf(files);
+          });
+        });
+      });
     });
   });
 });
