@@ -334,6 +334,7 @@ css: {
 #### defaults
 ```js
 {
+  package: null,
   flattenPackages: true,
   flattenTypes: false,
   flatten: false,
@@ -344,6 +345,9 @@ css: {
   renames: {}
 }
 ```
+
+#### package
+The directory name of package for destination file. When set to null, it will use package name.
 
 #### flattenPackages, flattenTypes, flatten, verbose, override, registry
 These options will override the global options.

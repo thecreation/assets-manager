@@ -1816,6 +1816,40 @@ describe('Manifest', () => {
           });
         });
       });
+
+      it('should rename package', () => {
+        cd('manifest');
+        let manifest = new Manifest({
+          flatten: false,
+          flattenTypes: false,
+          flattenPackages: false,
+          packages: {
+            "npm:bootstrap": [{
+              js: 'dist/js',
+              css: 'dist/css'
+            }, {
+              path: '${dest}/${package}/${file}',
+              package: 'newbootstrap'
+            }]
+          },
+          dest: 'assets',
+          verbose: false
+        });
+
+        return manifest.copyPackages().then(() => {
+          let dir = path.resolve(FIXTURES, 'manifest', 'assets');
+          let files = finder.listFiles(dir);
+
+          expect('newbootstrap/bootstrap.js').to.be.oneOf(files);
+
+          return manifest.cleanPackages().then(() => {
+            let dir = path.resolve(FIXTURES, 'manifest', 'assets');
+            let files = finder.listFiles(dir);
+
+            expect('newbootstrap/bootstrap.js').to.not.be.oneOf(files);
+          });
+        });
+      });
     });
   });
 });

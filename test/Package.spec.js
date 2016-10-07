@@ -40,6 +40,7 @@ describe('Package', () => {
     expect(pkg.name).to.be.equal('bootstrap');
     expect(pkg.registry).to.be.an.instanceof(Bower);
     expect(pkg.options).to.be.eql({
+      package: null,
       registry: 'bower',
       dest: 'assets',
       path: '${dest}/${type}/${package}/${file}',
@@ -106,6 +107,7 @@ describe('Package', () => {
     expect(pkg.name).to.be.equal('bootstrap');
     expect(pkg.registry).to.be.an.instanceof(Npm);
     expect(pkg.options).to.be.eql({
+      package: null,
       registry: 'npm',
       dest: 'assets',
       path: '${dest}/${type}/${package}/${file}',
@@ -174,6 +176,7 @@ describe('Package', () => {
     expect(pkg.name).to.be.equal('bootstrap');
     expect(pkg.registry).to.be.an.instanceof(Custom);
     expect(pkg.options).to.be.eql({
+      package: null,
       registry: 'libs',
       dest: 'assets',
       path: '${dest}/${type}/${package}/${file}',
