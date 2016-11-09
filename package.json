@@ -1,6 +1,6 @@
 {
   "name": "assets-manager",
-  "version": "0.3.3",
+  "version": "0.3.4",
   "description": "Copy packages files based on manifest file",
   "homepage": "https://github.com/amazingSurge/assets-manager",
   "author": {
