@@ -268,8 +268,29 @@ efgh5678`;
           'js/test.js',
           'js/test2.js'
         ]);
+      });
+    });
 
+    it('should replaces based on rules', () => {
+      cd(FIXTURES);
 
+      return file.copyFiles([{
+        src: path.join('file', 'sub', 'test2.js'),
+        dest: path.join('.tmp', 'replaces', 'js' ,'test2.js'),
+      }], {
+        replaces: {
+          "*": {
+            "foo": "bar"
+          },
+          "*.js": {
+            "hello": "world"
+          }
+        }
+      }).then(() => {
+        return file.read(path.join('.tmp', 'replaces', 'js' ,'test2.js')).then(c => {
+          expect(c.toString()).to.contain("bar");
+          expect(c.toString()).to.contain("world");
+        });
       });
     });
 
