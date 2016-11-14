@@ -294,6 +294,29 @@ efgh5678`;
       });
     });
 
+    it('should process the files', () => {
+      cd(FIXTURES);
+
+      return file.copyFiles([{
+        src: path.join('file', 'sub', 'test2.js'),
+        dest: path.join('.tmp', 'replaces', 'js' ,'test2.js'),
+      }], {
+        processes: {
+          "*": function(content, filename) {
+            return content.replace('foo', 'bar');
+          },
+          "*.js": function(content, filename) {
+            return content.replace('hello', 'world');
+          }
+        }
+      }).then(() => {
+        return file.read(path.join('.tmp', 'replaces', 'js' ,'test2.js')).then(c => {
+          expect(c.toString()).to.contain("bar");
+          expect(c.toString()).to.contain("world");
+        });
+      });
+    });
+
     it('should fail if copy files not correctly', () => {
       cd(FIXTURES);
 

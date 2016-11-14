@@ -342,6 +342,7 @@ css: {
   override: true,
   registry: 'npm',
   replaces: {},
+  processes: {},
   renames: {}
 }
 ```
@@ -359,6 +360,16 @@ It will replace the content when copy to target directory. Regex supported.
   "*.css": {
     "../fonts": "path-to-fonts",
     "/fa-(\w+)/g": "icon-$1"
+  }
+}
+```
+
+#### processes
+It will process the content when copy to target directory.
+```js
+"processes": {
+  "*.css": function(content) {
+    return content.replace('foo', 'bar');
   }
 }
 ```
