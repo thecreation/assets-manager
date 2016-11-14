@@ -302,9 +302,7 @@ efgh5678`;
         dest: path.join('.tmp', 'replaces', 'js' ,'test2.js'),
       }], {
         processes: {
-          "*": function(content, filename) {
-            return content.replace('foo', 'bar');
-          },
+          "*": "function(content, filename) {return content.replace('foo', 'bar');}",
           "*.js": function(content, filename) {
             return content.replace('hello', 'world');
           }
