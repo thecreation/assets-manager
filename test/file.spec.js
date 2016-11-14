@@ -303,9 +303,9 @@ efgh5678`;
       }], {
         processes: {
           "*": "function(content, filename) {return content.replace('foo', 'bar');}",
-          "*.js": function(content, filename) {
+          "*.js": [function(content, filename) {
             return content.replace('hello', 'world');
-          }
+          }]
         }
       }).then(() => {
         return file.read(path.join('.tmp', 'replaces', 'js' ,'test2.js')).then(c => {

@@ -374,6 +374,20 @@ It will process the content when copy to target directory.
 }
 ```
 
+It support function string.
+```js
+"processes": {
+  "*.css": "function(content) { return content.replace('foo', 'bar');}"
+}
+```
+
+Also it support function array.
+```js
+"processes": {
+  "*.css": ["function(content) { return content.replace('foo', 'bar');}"]
+}
+```
+
 #### renames
 It will rename the files when copy to target directory. Regex supported.
 ```js
