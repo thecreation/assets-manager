@@ -5,7 +5,6 @@ define( [
 	"../var/support"
 ], function( jQuery, document, documentElement, support ) {
 
-"use strict";
 
 ( function() {
 

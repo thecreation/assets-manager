@@ -8,9 +8,7 @@
 
 
 +function ($) {
-  'use strict';
-
-  // ALERT CLASS DEFINITION
+    // ALERT CLASS DEFINITION
   // ======================
 
   var dismiss = '[data-dismiss="alert"]'

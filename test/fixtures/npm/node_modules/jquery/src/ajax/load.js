@@ -7,7 +7,6 @@ define( [
 	"../selector"
 ], function( jQuery ) {
 
-"use strict";
 
 /**
  * Load a url into a page

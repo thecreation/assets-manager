@@ -8,9 +8,7 @@
 
 
 +function ($) {
-  'use strict';
-
-  // MODAL CLASS DEFINITION
+    // MODAL CLASS DEFINITION
   // ======================
 
   var Modal = function (element, options) {

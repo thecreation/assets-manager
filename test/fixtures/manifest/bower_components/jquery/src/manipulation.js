@@ -26,7 +26,6 @@ define( [
 	wrapMap, getAll, setGlobalEval, buildFragment, support,
 	dataPriv, dataUser, acceptData, DOMEval ) {
 
-"use strict";
 
 var
 

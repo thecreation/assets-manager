@@ -8,9 +8,7 @@
 
 
 +function ($) {
-  'use strict';
-
-  // CAROUSEL CLASS DEFINITION
+    // CAROUSEL CLASS DEFINITION
   // =========================
 
   var Carousel = function (element, options) {

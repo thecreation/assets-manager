@@ -1,5 +1,3 @@
-"use strict";
-
 import configure from '../lib/configure';
 import chai from 'chai';
 import dirtyChai from 'dirty-chai';

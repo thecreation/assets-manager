@@ -9,9 +9,7 @@
 /* jshint latedef: false */
 
 +function ($) {
-  'use strict';
-
-  // COLLAPSE PUBLIC CLASS DEFINITION
+    // COLLAPSE PUBLIC CLASS DEFINITION
   // ================================
 
   var Collapse = function (element, options) {

@@ -3,7 +3,6 @@ define( [
 	"../deferred"
 ], function( jQuery ) {
 
-"use strict";
 
 // These usually indicate a programmer mistake during development,
 // warn about them ASAP rather than swallowing them by default.

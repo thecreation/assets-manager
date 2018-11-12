@@ -2,7 +2,6 @@ define( [
 	"../core"
 ], function( jQuery ) {
 
-"use strict";
 
 function getAll( context, tag ) {
 

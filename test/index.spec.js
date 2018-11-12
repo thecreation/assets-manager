@@ -1,5 +1,3 @@
-"use strict";
-
 import assetsManager from '../lib';
 import chai from 'chai';
 import dirtyChai from 'dirty-chai';

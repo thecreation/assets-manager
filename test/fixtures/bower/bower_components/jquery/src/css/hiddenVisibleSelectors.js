@@ -3,7 +3,6 @@ define( [
 	"../selector"
 ], function( jQuery ) {
 
-"use strict";
 
 jQuery.expr.pseudos.hidden = function( elem ) {
 	return !jQuery.expr.pseudos.visible( elem );

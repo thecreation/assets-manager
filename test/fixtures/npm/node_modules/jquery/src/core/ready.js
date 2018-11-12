@@ -5,7 +5,6 @@ define( [
 	"../deferred"
 ], function( jQuery, document ) {
 
-"use strict";
 
 // The deferred used on DOM ready
 var readyList = jQuery.Deferred();

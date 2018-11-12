@@ -13,7 +13,6 @@ define( [
 	"./serialize" // jQuery.param
 ], function( jQuery, document, rnotwhite, location, nonce, rquery ) {
 
-"use strict";
 
 var
 	r20 = /%20/g,

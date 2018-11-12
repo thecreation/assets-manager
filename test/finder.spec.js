@@ -1,5 +1,3 @@
-"use strict";
-
 import finder from '../lib/finder';
 import path from 'path';
 import fillTypes from './helpers/fillTypes';
@@ -135,7 +133,7 @@ describe('finder', function () {
     it('should filter files correctly', () => {
       const dir = path.resolve(FIXTURES, 'finder');
       const result = finder.filterFiles(dir, 'js/*.js');
-      expect(result).to.be.eql([
+      expect(result).to.have.members([
         'js/bootstrap.js',
         'js/bootstrap.min.js',
         'js/npm.js'
@@ -147,7 +145,7 @@ describe('finder', function () {
     it('should filter files by type correctly', () => {
       const dir = path.resolve(FIXTURES, 'finder');
       const result = finder.filterFilesByType(dir, 'js');
-      expect(result).to.be.eql([
+      expect(result).to.have.members([
         'js/bootstrap.js',
         'js/bootstrap.min.js',
         'js/npm.js'

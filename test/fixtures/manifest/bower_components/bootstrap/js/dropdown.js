@@ -8,9 +8,7 @@
 
 
 +function ($) {
-  'use strict';
-
-  // DROPDOWN CLASS DEFINITION
+    // DROPDOWN CLASS DEFINITION
   // =========================
 
   var backdrop = '.dropdown-backdrop'

@@ -21,7 +21,6 @@ define( [
 	class2type, toString, hasOwn, fnToString, ObjectFunctionString,
 	support, DOMEval ) {
 
-"use strict";
 
 var
 	version = "3.1.0",

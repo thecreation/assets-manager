@@ -10,7 +10,6 @@ define( [
 	"./selector"
 ], function( jQuery, document, documentElement, rnotwhite, slice, dataPriv ) {
 
-"use strict";
 
 var
 	rkeyEvent = /^key/,

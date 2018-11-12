@@ -1,5 +1,3 @@
-"use strict";
-
 import Foo from './fixtures/singleton';
 import chai from 'chai';
 import dirtyChai from 'dirty-chai';

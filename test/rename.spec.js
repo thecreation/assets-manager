@@ -1,5 +1,4 @@
 /*eslint no-useless-escape: "off"*/
-"use strict";
 
 import {expect} from 'chai';
 import rename from '../lib/rename';

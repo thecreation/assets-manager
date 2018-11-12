@@ -4,7 +4,6 @@ define( [
 	"./callbacks"
 ], function( jQuery, slice ) {
 
-"use strict";
 
 function Identity( v ) {
 	return v;

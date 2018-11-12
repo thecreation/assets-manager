@@ -5,8 +5,6 @@
  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
  */
 
-'use strict';
-
 var fs = require('fs');
 var btoa = require('btoa');
 var glob = require('glob');

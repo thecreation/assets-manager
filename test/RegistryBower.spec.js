@@ -1,5 +1,3 @@
-"use strict";
-
 import Bower from '../lib/Registry/Bower';
 import path from 'path';
 import cd from './helpers/cd';
@@ -122,7 +120,7 @@ describe('Bower Registry', () => {
     cd('bower');
 
     let bower = new Bower();
-    expect(bower.getPackageFiles('normalize-css')).to.be.eql([
+    expect(bower.getPackageFiles('normalize-css')).to.have.members([
       'bower.json',
       'LICENSE.md',
       'normalize.css'
@@ -134,7 +132,7 @@ describe('Bower Registry', () => {
 
     let bower = new Bower();
     expect(bower.getPackageTypedFiles('notie')).to.be.eql(fillTypes({
-      js: ['dist/notie.min.js', 'gulpfile.js', 'src/notie.js'],
+      js: ['gulpfile.js','dist/notie.min.js', 'src/notie.js'],
       css: ['dist/notie.css'],
       scss: ['src/notie.scss'],
       images: ['demo.gif']

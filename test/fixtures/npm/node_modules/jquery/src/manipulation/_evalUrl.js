@@ -2,7 +2,6 @@ define( [
 	"../ajax"
 ], function( jQuery ) {
 
-"use strict";
 
 jQuery._evalUrl = function( url ) {
 	return jQuery.ajax( {

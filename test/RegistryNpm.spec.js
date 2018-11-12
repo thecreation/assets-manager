@@ -1,5 +1,3 @@
-"use strict";
-
 import Npm from '../lib/Registry/Npm';
 import path from 'path';
 import cd from './helpers/cd';
@@ -107,7 +105,7 @@ describe('Npm Registry', () => {
     cd('npm');
 
     let npm = new Npm();
-    expect(npm.getPackageFiles('normalize.css')).to.be.eql([
+    expect(npm.getPackageFiles('normalize.css')).to.have.members([
       'CHANGELOG.md',
       'LICENSE.md',
       'normalize.css',
@@ -121,7 +119,7 @@ describe('Npm Registry', () => {
 
     let npm = new Npm();
     expect(npm.getPackageTypedFiles('notie')).to.be.eql(fillTypes({
-      js: ['dist/notie.min.js', 'gulpfile.js', 'src/notie.js'],
+      js: ['gulpfile.js', 'dist/notie.min.js', 'src/notie.js'],
       css: ['dist/notie.css'],
       scss: ['src/notie.scss'],
       images: ['demo.gif']

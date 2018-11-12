@@ -6,7 +6,6 @@ define( [
 	"../traversing/findFilter"
 ], function( jQuery, document, rsingleTag ) {
 
-"use strict";
 
 // A central reference to the root jQuery(document)
 var rootjQuery,

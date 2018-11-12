@@ -9,8 +9,7 @@ if (typeof jQuery === 'undefined') {
 }
 
 +function ($) {
-  'use strict';
-  var version = $.fn.jquery.split(' ')[0].split('.')
+    var version = $.fn.jquery.split(' ')[0].split('.')
   if ((version[0] < 2 && version[1] < 9) || (version[0] == 1 && version[1] == 9 && version[2] < 1) || (version[0] > 3)) {
     throw new Error('Bootstrap\'s JavaScript requires jQuery version 1.9.1 or higher, but lower than version 4')
   }
@@ -26,9 +25,7 @@ if (typeof jQuery === 'undefined') {
 
 
 +function ($) {
-  'use strict';
-
-  // CSS TRANSITION SUPPORT (Shoutout: http://www.modernizr.com/)
+    // CSS TRANSITION SUPPORT (Shoutout: http://www.modernizr.com/)
   // ============================================================
 
   function transitionEnd() {
@@ -86,9 +83,7 @@ if (typeof jQuery === 'undefined') {
 
 
 +function ($) {
-  'use strict';
-
-  // ALERT CLASS DEFINITION
+    // ALERT CLASS DEFINITION
   // ======================
 
   var dismiss = '[data-dismiss="alert"]'
@@ -181,9 +176,7 @@ if (typeof jQuery === 'undefined') {
 
 
 +function ($) {
-  'use strict';
-
-  // BUTTON PUBLIC CLASS DEFINITION
+    // BUTTON PUBLIC CLASS DEFINITION
   // ==============================
 
   var Button = function (element, options) {
@@ -307,9 +300,7 @@ if (typeof jQuery === 'undefined') {
 
 
 +function ($) {
-  'use strict';
-
-  // CAROUSEL CLASS DEFINITION
+    // CAROUSEL CLASS DEFINITION
   // =========================
 
   var Carousel = function (element, options) {
@@ -546,9 +537,7 @@ if (typeof jQuery === 'undefined') {
 /* jshint latedef: false */
 
 +function ($) {
-  'use strict';
-
-  // COLLAPSE PUBLIC CLASS DEFINITION
+    // COLLAPSE PUBLIC CLASS DEFINITION
   // ================================
 
   var Collapse = function (element, options) {
@@ -758,9 +747,7 @@ if (typeof jQuery === 'undefined') {
 
 
 +function ($) {
-  'use strict';
-
-  // DROPDOWN CLASS DEFINITION
+    // DROPDOWN CLASS DEFINITION
   // =========================
 
   var backdrop = '.dropdown-backdrop'
@@ -924,9 +911,7 @@ if (typeof jQuery === 'undefined') {
 
 
 +function ($) {
-  'use strict';
-
-  // MODAL CLASS DEFINITION
+    // MODAL CLASS DEFINITION
   // ======================
 
   var Modal = function (element, options) {
@@ -1265,9 +1250,7 @@ if (typeof jQuery === 'undefined') {
 
 
 +function ($) {
-  'use strict';
-
-  // TOOLTIP PUBLIC CLASS DEFINITION
+    // TOOLTIP PUBLIC CLASS DEFINITION
   // ===============================
 
   var Tooltip = function (element, options) {
@@ -1785,9 +1768,7 @@ if (typeof jQuery === 'undefined') {
 
 
 +function ($) {
-  'use strict';
-
-  // POPOVER PUBLIC CLASS DEFINITION
+    // POPOVER PUBLIC CLASS DEFINITION
   // ===============================
 
   var Popover = function (element, options) {
@@ -1894,9 +1875,7 @@ if (typeof jQuery === 'undefined') {
 
 
 +function ($) {
-  'use strict';
-
-  // SCROLLSPY CLASS DEFINITION
+    // SCROLLSPY CLASS DEFINITION
   // ==========================
 
   function ScrollSpy(element, options) {
@@ -2067,9 +2046,7 @@ if (typeof jQuery === 'undefined') {
 
 
 +function ($) {
-  'use strict';
-
-  // TAB CLASS DEFINITION
+    // TAB CLASS DEFINITION
   // ====================
 
   var Tab = function (element) {
@@ -2223,9 +2200,7 @@ if (typeof jQuery === 'undefined') {
 
 
 +function ($) {
-  'use strict';
-
-  // AFFIX CLASS DEFINITION
+    // AFFIX CLASS DEFINITION
   // ======================
 
   var Affix = function (element, options) {

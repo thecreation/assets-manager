@@ -3,7 +3,6 @@ define( [
 	"../var/support"
 ], function( document, support ) {
 
-"use strict";
 
 ( function() {
 	var input = document.createElement( "input" ),

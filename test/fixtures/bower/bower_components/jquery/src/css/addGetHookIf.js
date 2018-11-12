@@ -1,6 +1,5 @@
 define( function() {
 
-"use strict";
 
 function addGetHookIf( conditionFn, hookFn ) {
 

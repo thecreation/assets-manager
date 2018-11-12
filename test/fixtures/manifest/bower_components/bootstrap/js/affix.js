@@ -8,9 +8,7 @@
 
 
 +function ($) {
-  'use strict';
-
-  // AFFIX CLASS DEFINITION
+    // AFFIX CLASS DEFINITION
   // ======================
 
   var Affix = function (element, options) {

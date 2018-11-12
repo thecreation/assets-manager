@@ -6,7 +6,6 @@ define( [
 	"../selector"
 ], function( jQuery, access, support, rnotwhite ) {
 
-"use strict";
 
 var boolHook,
 	attrHandle = jQuery.expr.attrHandle;

@@ -5,7 +5,6 @@ define( [
 	"../selector"
 ], function( jQuery, indexOf, rneedsContext ) {
 
-"use strict";
 
 var risSimple = /^.[^:#\[\.,]*$/;
 

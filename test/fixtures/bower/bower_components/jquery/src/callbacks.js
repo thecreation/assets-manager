@@ -3,7 +3,6 @@ define( [
 	"./var/rnotwhite"
 ], function( jQuery, rnotwhite ) {
 
-"use strict";
 
 // Convert String-formatted options into Object-formatted ones
 function createOptions( options ) {

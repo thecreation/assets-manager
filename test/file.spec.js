@@ -1,5 +1,4 @@
 /*eslint max-nested-callbacks: ["error", 6]*/
-"use strict";
 
 import file from '../lib/file';
 import path from 'path';

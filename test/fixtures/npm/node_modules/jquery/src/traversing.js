@@ -9,7 +9,6 @@ define( [
 	"./selector"
 ], function( jQuery, indexOf, dir, siblings, rneedsContext ) {
 
-"use strict";
 
 var rparentsprev = /^(?:parents|prev(?:Until|All))/,
 

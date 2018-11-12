@@ -4,7 +4,6 @@ define( [
 	"./css"
 ], function( jQuery, access ) {
 
-"use strict";
 
 // Create innerHeight, innerWidth, height, width, outerHeight and outerWidth methods
 jQuery.each( { Height: "height", Width: "width" }, function( name, type ) {

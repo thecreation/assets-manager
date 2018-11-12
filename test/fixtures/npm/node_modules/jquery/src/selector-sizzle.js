@@ -3,7 +3,6 @@ define( [
 	"../external/sizzle/dist/sizzle"
 ], function( jQuery, Sizzle ) {
 
-"use strict";
 
 jQuery.find = Sizzle;
 jQuery.expr = Sizzle.selectors;

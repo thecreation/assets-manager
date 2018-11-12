@@ -5,8 +5,6 @@
  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
  */
 
-'use strict';
-
 var Markdown = require('markdown-it');
 
 function markdown2html(markdownString) {

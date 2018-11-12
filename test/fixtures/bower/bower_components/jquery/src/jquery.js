@@ -33,7 +33,6 @@ define( [
 	"./exports/amd"
 ], function( jQuery ) {
 
-"use strict";
 
 return ( window.jQuery = window.$ = jQuery );
 

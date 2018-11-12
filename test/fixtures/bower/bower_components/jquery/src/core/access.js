@@ -2,7 +2,6 @@ define( [
 	"../core"
 ], function( jQuery ) {
 
-"use strict";
 
 // Multifunctional method to get and set values of a collection
 // The value/s can optionally be executed if it's a function

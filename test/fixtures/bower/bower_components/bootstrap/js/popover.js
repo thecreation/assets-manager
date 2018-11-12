@@ -8,9 +8,7 @@
 
 
 +function ($) {
-  'use strict';
-
-  // POPOVER PUBLIC CLASS DEFINITION
+    // POPOVER PUBLIC CLASS DEFINITION
   // ===============================
 
   var Popover = function (element, options) {

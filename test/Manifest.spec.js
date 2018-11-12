@@ -1,7 +1,5 @@
 /*eslint max-nested-callbacks: ["error", 6]*/
 
-'use strict';
-
 import Manifest from '../lib/Manifest';
 import Package from '../lib/Package';
 import path from 'path';

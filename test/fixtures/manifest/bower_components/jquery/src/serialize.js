@@ -6,7 +6,6 @@ define( [
 	"./attributes/prop"
 ], function( jQuery, rcheckableType ) {
 
-"use strict";
 
 var
 	rbracket = /\[\]$/,

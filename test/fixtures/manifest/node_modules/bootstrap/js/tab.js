@@ -8,9 +8,7 @@
 
 
 +function ($) {
-  'use strict';
-
-  // TAB CLASS DEFINITION
+    // TAB CLASS DEFINITION
   // ====================
 
   var Tab = function (element) {

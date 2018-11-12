@@ -1,5 +1,3 @@
-'use strict';
-
 import {expect} from 'chai';
 import Package from '../lib/Package';
 import Bower from '../lib/Registry/Bower';
@@ -331,14 +329,14 @@ describe('Package', () => {
         registry: 'bower'
       });
 
-      expect(pkg.getFiles()).to.be.eql([
+      expect(pkg.getFiles()).to.have.members([
         'bower.json',
         'LICENSE.md',
         'normalize.css'
       ]);
 
       // it should use cached files
-      expect(pkg.getFiles()).to.be.eql([
+      expect(pkg.getFiles()).to.have.members([
         'bower.json',
         'LICENSE.md',
         'normalize.css'

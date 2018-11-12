@@ -5,7 +5,6 @@ define( [
 	"./data/var/dataUser"
 ], function( jQuery, access, dataPriv, dataUser ) {
 
-"use strict";
 
 //	Implementation Summary
 //

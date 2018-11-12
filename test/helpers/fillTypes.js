@@ -1,5 +1,3 @@
-'use strict';
-
 import types from '../../lib/types';
 
 export default function (obj) {

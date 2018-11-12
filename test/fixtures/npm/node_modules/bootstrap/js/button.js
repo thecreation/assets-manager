@@ -8,9 +8,7 @@
 
 
 +function ($) {
-  'use strict';
-
-  // BUTTON PUBLIC CLASS DEFINITION
+    // BUTTON PUBLIC CLASS DEFINITION
   // ==============================
 
   var Button = function (element, options) {

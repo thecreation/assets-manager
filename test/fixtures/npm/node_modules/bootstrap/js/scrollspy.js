@@ -8,9 +8,7 @@
 
 
 +function ($) {
-  'use strict';
-
-  // SCROLLSPY CLASS DEFINITION
+    // SCROLLSPY CLASS DEFINITION
   // ==========================
 
   function ScrollSpy(element, options) {

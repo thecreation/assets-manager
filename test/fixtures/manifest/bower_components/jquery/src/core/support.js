@@ -3,7 +3,6 @@ define( [
 	"../var/support"
 ], function( document, support ) {
 
-"use strict";
 
 // Support: Safari 8 only
 // In Safari 8 documents created via document.implementation.createHTMLDocument

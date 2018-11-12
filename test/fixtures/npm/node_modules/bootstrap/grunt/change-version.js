@@ -1,6 +1,4 @@
 #!/usr/bin/env node
-'use strict';
-
 /* globals Set */
 /*!
  * Script to update version number references in the project.

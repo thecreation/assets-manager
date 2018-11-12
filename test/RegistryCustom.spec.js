@@ -1,5 +1,3 @@
-"use strict";
-
 import Custom from '../lib/Registry/Custom';
 import path from 'path';
 import cd from './helpers/cd';
@@ -67,7 +65,7 @@ describe('Custom Registry', () => {
       dir: 'libs'
     });
 
-    expect(custom.getPackageFiles('notie')).to.be.eql([
+    expect(custom.getPackageFiles('notie')).to.have.members([
       'demo.gif',
       'dist/notie.css',
       'dist/notie.min.js',

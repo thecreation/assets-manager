@@ -7,7 +7,6 @@ define( [
 	"./setGlobalEval"
 ], function( jQuery, rtagName, rscriptType, wrapMap, getAll, setGlobalEval ) {
 
-"use strict";
 
 var rhtml = /<|&#?\w+;/;
 

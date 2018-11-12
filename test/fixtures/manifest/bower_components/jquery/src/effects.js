@@ -20,7 +20,6 @@ define( [
 ], function( jQuery, document, rcssNum, rnotwhite, cssExpand, isHiddenWithinTree, swap,
 	adjustCSS, dataPriv, showHide ) {
 
-"use strict";
 
 var
 	fxNow, timerId,
