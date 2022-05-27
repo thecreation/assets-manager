@@ -62,7 +62,7 @@
     "deep-extend": "^0.6.0",
     "dot-prop": "^4.2.0",
     "es6-template": "^1.0.4",
-    "fs-extra": "^7.0.1",
+    "fs-extra": "^8.0.0",
     "glob-parent": "^3.1.0",
     "globby": "^8.0.1",
     "is-plain-object": "^2.0.4",
